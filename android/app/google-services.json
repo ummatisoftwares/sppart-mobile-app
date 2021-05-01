@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "349858197189",
+    "firebase_url": "https://sppart-eb17b.firebaseio.com",
+    "project_id": "sppart-eb17b",
+    "storage_bucket": "sppart-eb17b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349858197189:android:870ccc18eb40d092618aac",
+        "android_client_info": {
+          "package_name": "omt.app.spraat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349858197189-8trf0qaafjss404ldc4bhq38jcnjh6og.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCVJc0rKlmytIrKSmTx61cZjduk3MiqvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349858197189-8trf0qaafjss404ldc4bhq38jcnjh6og.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349858197189-35ed1aujvat08ihi0b07qkhoamq7en6t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "omt.app.spprat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
