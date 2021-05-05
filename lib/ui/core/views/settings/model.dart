@@ -12,7 +12,7 @@ import 'package:stacked_themes/stacked_themes.dart';
 class SettingsModel extends BaseViewModel {
   final navigationService = locator<NavigationService>();
   final authService = locator<AuthService>();
-  FirebaseUser user;
+  User user;
   bool isDarkMode = false;
 
   init(BuildContext context) async {
@@ -26,7 +26,7 @@ class SettingsModel extends BaseViewModel {
   }
 
   login() {
-    navigationService.replaceWith(Routes.authViewRoute);
+    navigationService.replaceWith(Routes.authView);
   }
 
   logout() async {

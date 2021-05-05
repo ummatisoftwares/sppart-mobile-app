@@ -53,19 +53,19 @@ class Offer {
 
   factory Offer.fromSnapshot(DocumentSnapshot doc) {
     return Offer(
-        id: doc.documentID,
-        brand: doc.data['brand'] ?? '',
-        specifications: doc.data['specifications'] ?? '',
-        condition: doc.data['condition'] ?? '',
-        warranty: doc.data['warranty'],
-        validTill: doc.data['validTill'],
-        name: doc.data['name'],
-        price: doc.data['price'],
-        requestID: doc.data['requestID'],
-        imageURL: doc.data['imageURL'],
-        phone: doc.data['phone'] ?? "",
-        userId: doc.data['userId'] ?? "",
-        extra: doc.data['extra'] ?? []);
+        id: doc.id,
+        brand: doc.data()['brand'] ?? '',
+        specifications: doc.data()['specifications'] ?? '',
+        condition: doc.data()['condition'] ?? '',
+        warranty: doc.data()['warranty'],
+        validTill: doc.data()['validTill'],
+        name: doc.data()['name'],
+        price: doc.data()['price'],
+        requestID: doc.data()['requestID'],
+        imageURL: doc.data()['imageURL'],
+        phone: doc.data()['phone'] ?? "",
+        userId: doc.data()['userId'] ?? "",
+        extra: doc.data()['extra'] ?? []);
   }
 
   Widget detailsView(BuildContext context) {
@@ -80,7 +80,7 @@ class Offer {
                     child: Text(
                       "name",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -88,7 +88,7 @@ class Offer {
                     child: Text(
                       this.name ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -103,7 +103,7 @@ class Offer {
                     child: Text(
                       "brand",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -111,7 +111,7 @@ class Offer {
                     child: Text(
                       this.brand ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -126,7 +126,7 @@ class Offer {
                     child: Text(
                       "price",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -134,7 +134,7 @@ class Offer {
                     child: Text(
                       this.price ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -149,7 +149,7 @@ class Offer {
                     child: Text(
                       "specifications",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -157,7 +157,7 @@ class Offer {
                     child: Text(
                       this.specifications ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -172,7 +172,7 @@ class Offer {
                     child: Text(
                       "condition",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -180,7 +180,7 @@ class Offer {
                     child: Text(
                       this.condition ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -195,7 +195,7 @@ class Offer {
                     child: Text(
                       "warranty",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -203,7 +203,7 @@ class Offer {
                     child: Text(
                       this.warranty ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -218,7 +218,7 @@ class Offer {
                     child: Text(
                       "valid Till",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -226,7 +226,7 @@ class Offer {
                     child: Text(
                       this.validTill ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -241,7 +241,7 @@ class Offer {
                     child: Text(
                       "image",
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   InkWell(
@@ -269,7 +269,7 @@ class Offer {
                     child: Text(
                       e['field'],
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                          TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                     ),
                   ),
                   Container(
@@ -277,7 +277,7 @@ class Offer {
                     child: Text(
                       e['value'] ?? "",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],

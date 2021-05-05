@@ -11,7 +11,7 @@ import 'package:spraat/services/firestore_service.dart';
 import 'package:spraat/services/media_service.dart';
 import 'package:get_it/get_it.dart';
 
-void $initGetIt(GetIt g, {String environment}) {
+void $initGetIt(GetIt g) {
   final thirdPartyServicesModule = _$ThirdPartyServicesModule();
   g.registerLazySingleton<AuthService>(() => AuthService());
   g.registerLazySingleton<DialogService>(

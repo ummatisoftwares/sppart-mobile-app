@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spraat/app/locator.dart';
 import 'package:spraat/ui/splash/model.dart';
 import 'package:stacked/stacked.dart';
+import 'package:spraat/services/auth_service.dart';
 
 class SplashView extends StatelessWidget {
   @override
@@ -9,24 +11,27 @@ class SplashView extends StatelessWidget {
       onModelReady: (model) => model.init(),
       viewModelBuilder: () => SplashModel(),
       builder: (context, model, child) {
+        final _auth = locator<AuthService>();
+        _auth.getUser();
         return Scaffold(
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [const Color(0xffFAFBFB), Colors.blueGrey[100]], // red to yellow FAFBFB ECEEEF
+                colors: [Theme.of(context).primaryColor.withOpacity(0.9), Theme.of(context).primaryColor], // red to yellow FAFBFB ECEEEF
               ),
             ),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/logo_white.png", height: 180,),
+                  Spacer(),
+                  Image.asset("assets/logo_white.png", height: 180),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.425,
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(backgroundColor: Colors.amber,),
                     ),
                   )
                 ],

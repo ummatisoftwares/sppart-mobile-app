@@ -13,9 +13,9 @@ class CarEngine {
 
   factory CarEngine.fromSnapshot(DocumentSnapshot doc) {
     return CarEngine(
-      id: doc.documentID,
-      name: doc.data['name'] ?? '',
-      year: doc.data['year'] ?? '',
+      id: doc.id,
+      name: doc.data()['name'] ?? '',
+      year: doc.data()['year'] ?? '',
     );
   }
 }

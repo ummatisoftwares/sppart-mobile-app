@@ -92,7 +92,7 @@ class Step1Model extends BaseViewModel {
   }
 
   selectBodyPart() {
-    _navigationService.navigateTo(Routes.step2ViewRoute,
+    _navigationService.navigateTo(Routes.step2,
         arguments: Step2Arguments(
             selectedBrand: selectedBrand,
             selectedEngine: selectedEngine,

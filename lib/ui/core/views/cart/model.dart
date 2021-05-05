@@ -14,7 +14,7 @@ class CartModel extends BaseViewModel {
   final auth = locator<AuthService>();
   final fire = locator<FirestoreService>();
   final nav = locator<NavigationService>();
-  FirebaseUser user;
+  User user;
   List<Offer> cart = List<Offer>();
 
   init() async {
@@ -28,7 +28,7 @@ class CartModel extends BaseViewModel {
   }
 
   login() {
-    nav.clearStackAndShow(Routes.authViewRoute);
+    nav.clearStackAndShow(Routes.authView);
   }
 
   navigate(Offer offer) {

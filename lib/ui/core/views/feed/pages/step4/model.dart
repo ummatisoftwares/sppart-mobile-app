@@ -58,9 +58,21 @@ class Step4Model extends BaseViewModel {
     notifyListeners();
   }
 
-  uploadItemImage() async {
+  uploadCameraImage() async {
     setBusy(true);
-    var file = await mediaService.getImage();
+    var file = await mediaService.getImageCamera();
+    if (file is File) {
+      uploadedImage = await mediaService.uploadFile(file, path: "itemRequests/");
+      images.add(uploadedImage);
+    }
+
+    notifyListeners();
+    setBusy(false);
+  }
+
+  uploadGalleryImage() async {
+    setBusy(true);
+    var file = await mediaService.getGalleryImage();
     if (file is File) {
       uploadedImage = await mediaService.uploadFile(file, path: "itemRequests/");
       images.add(uploadedImage);
@@ -122,7 +134,7 @@ class Step4Model extends BaseViewModel {
   }
 
   submitRequest() async {
-    FirebaseUser user = await authService.getUser();
+    User user = await authService.getUser();
     if (user == null) {
       navService.navigateToView(AuthView(
           selectedBrand: selectedBrand,
@@ -133,11 +145,13 @@ class Step4Model extends BaseViewModel {
           selectedItem: selectedItem));
     } else {
       if (formKey.currentState.validate()) {
-        FirebaseUser user = await authService.getUser();
+        User user = await authService.getUser();
         Request req = Request(
             time: Timestamp.now(),
             carBrand: selectedBrand.id,
             carType: selectedtype.id,
+            carName: selectedtype.name,
+            carModel: selectedYear.name,
             carYear: selectedYear.id,
             engineSize: selectedEngine.id,
             item: selectedItem.id,

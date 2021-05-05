@@ -4,185 +4,198 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:spraat/ui/splash/splash.dart';
-import 'package:spraat/ui/core/core.dart';
-import 'package:spraat/ui/login/login.dart';
-import 'package:spraat/model/brand.dart';
-import 'package:spraat/model/type.dart';
-import 'package:spraat/model/year.dart';
-import 'package:spraat/model/engine.dart';
-import 'package:spraat/model/category.dart';
-import 'package:spraat/model/item.dart';
-import 'package:spraat/ui/auth/auth.dart';
-import 'package:spraat/ui/register/register.dart';
-import 'package:spraat/ui/core/views/feed/pages/step1/step1.dart';
-import 'package:spraat/ui/core/views/feed/pages/step2/step2.dart';
-import 'package:spraat/ui/core/views/feed/pages/step3/step3.dart';
-import 'package:spraat/ui/core/views/feed/pages/step4/step4.dart';
+// ignore_for_file: public_member_api_docs
 
-abstract class Routes {
-  static const splashViewRoute = '/';
-  static const coreViewRoute = '/core-view-route';
-  static const loginViewRoute = '/login-view-route';
-  static const authViewRoute = '/auth-view-route';
-  static const registerViewRoute = '/register-view-route';
-  static const step1ViewRoute = '/step1-view-route';
-  static const step2ViewRoute = '/step2-view-route';
-  static const step3ViewRoute = '/step3-view-route';
-  static const step4ViewRoute = '/step4-view-route';
-  static const all = {
-    splashViewRoute,
-    coreViewRoute,
-    loginViewRoute,
-    authViewRoute,
-    registerViewRoute,
-    step1ViewRoute,
-    step2ViewRoute,
-    step3ViewRoute,
-    step4ViewRoute,
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+
+import '../model/brand.dart';
+import '../model/category.dart';
+import '../model/engine.dart';
+import '../model/item.dart';
+import '../model/type.dart';
+import '../model/year.dart';
+import '../ui/auth/auth.dart';
+import '../ui/core/core.dart';
+import '../ui/core/views/feed/pages/step1/step1.dart';
+import '../ui/core/views/feed/pages/step2/step2.dart';
+import '../ui/core/views/feed/pages/step3/step3.dart';
+import '../ui/core/views/feed/pages/step4/step4.dart';
+import '../ui/login/login.dart';
+import '../ui/register/register.dart';
+import '../ui/splash/splash.dart';
+
+class Routes {
+  static const String splashView = '/';
+  static const String coreView = '/core-view';
+  static const String loginView = '/login-view';
+  static const String authView = '/auth-view';
+  static const String registerView = '/register-view';
+  static const String step1 = '/Step1';
+  static const String step2 = '/Step2';
+  static const String step3 = '/Step3';
+  static const String step4 = '/Step4';
+  static const all = <String>{
+    splashView,
+    coreView,
+    loginView,
+    authView,
+    registerView,
+    step1,
+    step2,
+    step3,
+    step4,
   };
 }
 
 class Router extends RouterBase {
   @override
-  Set<String> get allRoutes => Routes.all;
-
-  @Deprecated('call ExtendedNavigator.ofRouter<Router>() directly')
-  static ExtendedNavigatorState get navigator =>
-      ExtendedNavigator.ofRouter<Router>();
-
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(Routes.splashView, page: SplashView),
+    RouteDef(Routes.coreView, page: CoreView),
+    RouteDef(Routes.loginView, page: LoginView),
+    RouteDef(Routes.authView, page: AuthView),
+    RouteDef(Routes.registerView, page: RegisterView),
+    RouteDef(Routes.step1, page: Step1),
+    RouteDef(Routes.step2, page: Step2),
+    RouteDef(Routes.step3, page: Step3),
+    RouteDef(Routes.step4, page: Step4),
+  ];
   @override
-  Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-    switch (settings.name) {
-      case Routes.splashViewRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => SplashView(),
-          settings: settings,
-        );
-      case Routes.coreViewRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => CoreView(),
-          settings: settings,
-        );
-      case Routes.loginViewRoute:
-        if (hasInvalidArgs<LoginViewArguments>(args)) {
-          return misTypedArgsRoute<LoginViewArguments>(args);
-        }
-        final typedArgs = args as LoginViewArguments ?? LoginViewArguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => LoginView(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine,
-              selectedCategory: typedArgs.selectedCategory,
-              selectedItem: typedArgs.selectedItem),
-          settings: settings,
-        );
-      case Routes.authViewRoute:
-        if (hasInvalidArgs<AuthViewArguments>(args)) {
-          return misTypedArgsRoute<AuthViewArguments>(args);
-        }
-        final typedArgs = args as AuthViewArguments ?? AuthViewArguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => AuthView(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine,
-              selectedCategory: typedArgs.selectedCategory,
-              selectedItem: typedArgs.selectedItem),
-          settings: settings,
-        );
-      case Routes.registerViewRoute:
-        if (hasInvalidArgs<RegisterViewArguments>(args)) {
-          return misTypedArgsRoute<RegisterViewArguments>(args);
-        }
-        final typedArgs =
-            args as RegisterViewArguments ?? RegisterViewArguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => RegisterView(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine,
-              selectedCategory: typedArgs.selectedCategory,
-              selectedItem: typedArgs.selectedItem),
-          settings: settings,
-        );
-      case Routes.step1ViewRoute:
-        if (hasInvalidArgs<Step1Arguments>(args)) {
-          return misTypedArgsRoute<Step1Arguments>(args);
-        }
-        final typedArgs = args as Step1Arguments ?? Step1Arguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) =>
-              Step1(key: typedArgs.key, brand: typedArgs.brand),
-          settings: settings,
-        );
-      case Routes.step2ViewRoute:
-        if (hasInvalidArgs<Step2Arguments>(args)) {
-          return misTypedArgsRoute<Step2Arguments>(args);
-        }
-        final typedArgs = args as Step2Arguments ?? Step2Arguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => Step2(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine),
-          settings: settings,
-        );
-      case Routes.step3ViewRoute:
-        if (hasInvalidArgs<Step3Arguments>(args)) {
-          return misTypedArgsRoute<Step3Arguments>(args);
-        }
-        final typedArgs = args as Step3Arguments ?? Step3Arguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => Step3(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine,
-              selectedCategory: typedArgs.selectedCategory),
-          settings: settings,
-        );
-      case Routes.step4ViewRoute:
-        if (hasInvalidArgs<Step4Arguments>(args)) {
-          return misTypedArgsRoute<Step4Arguments>(args);
-        }
-        final typedArgs = args as Step4Arguments ?? Step4Arguments();
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => Step4(
-              key: typedArgs.key,
-              selectedBrand: typedArgs.selectedBrand,
-              selectedType: typedArgs.selectedType,
-              selectedYear: typedArgs.selectedYear,
-              selectedEngine: typedArgs.selectedEngine,
-              selectedCategory: typedArgs.selectedCategory,
-              selectedItem: typedArgs.selectedItem),
-          settings: settings,
-        );
-      default:
-        return unknownRoutePage(settings.name);
-    }
-  }
+  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, AutoRouteFactory>{
+    SplashView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SplashView(),
+        settings: data,
+      );
+    },
+    CoreView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CoreView(),
+        settings: data,
+      );
+    },
+    LoginView: (data) {
+      final args = data.getArgs<LoginViewArguments>(
+        orElse: () => LoginViewArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LoginView(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+          selectedCategory: args.selectedCategory,
+          selectedItem: args.selectedItem,
+        ),
+        settings: data,
+      );
+    },
+    AuthView: (data) {
+      final args = data.getArgs<AuthViewArguments>(
+        orElse: () => AuthViewArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AuthView(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+          selectedCategory: args.selectedCategory,
+          selectedItem: args.selectedItem,
+        ),
+        settings: data,
+      );
+    },
+    RegisterView: (data) {
+      final args = data.getArgs<RegisterViewArguments>(
+        orElse: () => RegisterViewArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => RegisterView(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+          selectedCategory: args.selectedCategory,
+          selectedItem: args.selectedItem,
+        ),
+        settings: data,
+      );
+    },
+    Step1: (data) {
+      final args = data.getArgs<Step1Arguments>(
+        orElse: () => Step1Arguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Step1(
+          key: args.key,
+          brand: args.brand,
+        ),
+        settings: data,
+      );
+    },
+    Step2: (data) {
+      final args = data.getArgs<Step2Arguments>(
+        orElse: () => Step2Arguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Step2(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+        ),
+        settings: data,
+      );
+    },
+    Step3: (data) {
+      final args = data.getArgs<Step3Arguments>(
+        orElse: () => Step3Arguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Step3(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+          selectedCategory: args.selectedCategory,
+        ),
+        settings: data,
+      );
+    },
+    Step4: (data) {
+      final args = data.getArgs<Step4Arguments>(
+        orElse: () => Step4Arguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Step4(
+          key: args.key,
+          selectedBrand: args.selectedBrand,
+          selectedType: args.selectedType,
+          selectedYear: args.selectedYear,
+          selectedEngine: args.selectedEngine,
+          selectedCategory: args.selectedCategory,
+          selectedItem: args.selectedItem,
+        ),
+        settings: data,
+      );
+    },
+  };
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//LoginView arguments holder class
+/// LoginView arguments holder class
 class LoginViewArguments {
   final Key key;
   final Brand selectedBrand;
@@ -201,7 +214,7 @@ class LoginViewArguments {
       this.selectedItem});
 }
 
-//AuthView arguments holder class
+/// AuthView arguments holder class
 class AuthViewArguments {
   final Key key;
   final Brand selectedBrand;
@@ -220,7 +233,7 @@ class AuthViewArguments {
       this.selectedItem});
 }
 
-//RegisterView arguments holder class
+/// RegisterView arguments holder class
 class RegisterViewArguments {
   final Key key;
   final Brand selectedBrand;
@@ -239,14 +252,14 @@ class RegisterViewArguments {
       this.selectedItem});
 }
 
-//Step1 arguments holder class
+/// Step1 arguments holder class
 class Step1Arguments {
   final Key key;
   final Brand brand;
   Step1Arguments({this.key, this.brand});
 }
 
-//Step2 arguments holder class
+/// Step2 arguments holder class
 class Step2Arguments {
   final Key key;
   final Brand selectedBrand;
@@ -261,7 +274,7 @@ class Step2Arguments {
       this.selectedEngine});
 }
 
-//Step3 arguments holder class
+/// Step3 arguments holder class
 class Step3Arguments {
   final Key key;
   final Brand selectedBrand;
@@ -278,7 +291,7 @@ class Step3Arguments {
       this.selectedCategory});
 }
 
-//Step4 arguments holder class
+/// Step4 arguments holder class
 class Step4Arguments {
   final Key key;
   final Brand selectedBrand;

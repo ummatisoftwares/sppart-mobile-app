@@ -42,7 +42,7 @@ class LoginModel extends BaseViewModel {
     authService.userStream().listen((event) {
       if (event != null) {
         if (selectedItem != null) {
-          navigationService.clearStackAndShow(Routes.step4ViewRoute,
+          navigationService.clearStackAndShow(Routes.step4,
               arguments: Step4Arguments(
                   selectedBrand: selectedBrand,
                   selectedType: selectedtype,
@@ -51,7 +51,7 @@ class LoginModel extends BaseViewModel {
                   selectedCategory: selectedCategory,
                   selectedItem: selectedItem));
         } else {
-          navigationService.clearStackAndShow(Routes.coreViewRoute);
+          navigationService.clearStackAndShow(Routes.coreView);
         }
       }
     });

@@ -18,9 +18,9 @@ class Brand {
 
   factory Brand.fromSnapshot(DocumentSnapshot doc) {
     return Brand(
-      id: doc.documentID,
-      name: doc.data['name'] ?? '',
-      imageURL: doc.data['imageURL'] ?? '',
+      id: doc.id,
+      name: doc.data()['name'] ?? '',
+      imageURL: doc.data()['imageURL'] ?? '',
     );
   }
 }

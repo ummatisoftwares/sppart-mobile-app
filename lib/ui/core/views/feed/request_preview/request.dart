@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:spraat/model/request.dart';
-
+import 'package:spraat/services/app_localization.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,16 +45,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Car Brand:",
+                                    AppLocalizations.of(context).translate('brand') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedBrand.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -74,16 +72,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Car Type:",
+                                    AppLocalizations.of(context).translate('carType') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18,color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedtype.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -102,16 +99,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Year Of Make:",
+                                    AppLocalizations.of(context).translate('yearOfMake') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedYear.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -130,16 +126,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Engine:",
+                                      AppLocalizations.of(context).translate('engineSize') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18,color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedEngine.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -158,16 +153,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Category:",
+                                      AppLocalizations.of(context).translate('category') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18,color: Colors.grey[400], fontWeight: FontWeight.w600 ),
                                   ),
                                 ),
                                 Text(model.selectedCategory.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -186,16 +180,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Item",
+                                    AppLocalizations.of(context).translate('item') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedItem.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -214,16 +207,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Phone number",
+                                    AppLocalizations.of(context).translate('phoneNumber') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedRequest.phoneNumber,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -242,17 +234,16 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Note",
+                                    AppLocalizations.of(context).translate('desciption') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Container(
                                   child: Text(model.selectedRequest.note,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.w600)),
                                 ),
                               ],
                             ),
@@ -278,8 +269,7 @@ class RequestPreview extends StatelessWidget {
                                         child: Text(
                                           "Location",
                                           style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300),
+                                              fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                       IconButton(
@@ -306,16 +296,15 @@ class RequestPreview extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
-                                    "Status",
+                                    AppLocalizations.of(context).translate('status') ?? "",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedRequest.status,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),

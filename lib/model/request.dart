@@ -6,6 +6,8 @@ class Request {
   final dynamic time;
   final String carBrand;
   final String carType;
+  final String carName;
+  final String carModel;
   final String carYear;
   final String engineSize;
   final String item;
@@ -29,6 +31,8 @@ class Request {
       @required this.time,
       @required this.carBrand,
       @required this.carType,
+      @required this.carName,
+      @required this.carModel,
       @required this.carYear,
       @required this.engineSize,
       @required this.item,
@@ -42,6 +46,8 @@ class Request {
       'time': time,
       'carBrand': carBrand,
       'carType': carType,
+      'carName': carName,
+      'carModel': carModel,
       'carYear': carYear,
       'engineSize': engineSize,
       'item': item,
@@ -59,21 +65,23 @@ class Request {
 
   factory Request.fromSnapshot(DocumentSnapshot doc) {
     return Request(
-        id: doc.documentID,
-        time: doc.data['time'] ?? '',
-        carBrand: doc.data['carBrand'] ?? '',
-        carType: doc.data['carType'] ?? '',
-        carYear: doc.data['carYear'],
-        engineSize: doc.data['engineSize'],
-        item: doc.data['item'],
-        userId: doc.data['userId'],
-        note: doc.data['note'],
-        imageURL: doc.data['imageURL'],
-        replyId: doc.data['replyId'],
-        status: doc.data['status'] ?? "Pending",
-        category: doc.data['category'],
-        locationURL: doc.data['locationURL'],
-        itemName: doc.data['itemName'] ?? "Unnamed",
-        phoneNumber: doc.data['phoneNumber']);
+        id: doc.id,
+        time: doc.data()['time'] ?? '',
+        carBrand: doc.data()['carBrand'] ?? '',
+        carType: doc.data()['carType'] ?? '',
+        carName: doc.data()['carName'] ?? '',
+        carModel: doc.data()['carModel'] ?? '',
+        carYear: doc.data()['carYear'],
+        engineSize: doc.data()['engineSize'],
+        item: doc.data()['item'],
+        userId: doc.data()['userId'],
+        note: doc.data()['note'],
+        imageURL: doc.data()['imageURL'],
+        replyId: doc.data()['replyId'],
+        status: doc.data()['status'] ?? "Pending",
+        category: doc.data()['category'],
+        locationURL: doc.data()['locationURL'],
+        itemName: doc.data()['itemName'] ?? "Unnamed",
+        phoneNumber: doc.data()['phoneNumber']);
   }
 }

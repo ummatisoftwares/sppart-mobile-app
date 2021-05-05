@@ -15,8 +15,9 @@ class AuthService {
   //google
   final googleSignIn = GoogleSignIn();
   //facebook AuthBloc
-  Stream<FirebaseUser> get currentUser => _firebaseAuth.onAuthStateChanged;
-  Future<AuthResult> signInWithCredentail(AuthCredential credential) => _firebaseAuth.signInWithCredential(credential);
+  final fb = FacebookLogin();
+  Stream<User> get currentUser => _firebaseAuth.authStateChanges();
+  Future<UserCredential> signInWithCredentail(AuthCredential credential) => _firebaseAuth.signInWithCredential(credential);
 
   signUpWithEmailAndPassword(String email, String password) async {
     try {
@@ -29,16 +30,16 @@ class AuthService {
     }
   }
 
-  Stream<FirebaseUser> userStream() {
-    return _firebaseAuth.onAuthStateChanged;
+  Stream<User> userStream() {
+    return _firebaseAuth.authStateChanges();
   }
 
-  Future<FirebaseUser> getUser() async {
-    return await _firebaseAuth.currentUser();
+  Future<User> getUser() async {
+    return  _firebaseAuth.currentUser;
   }
 
   login(String email, String password) async {
-    AuthResult result;
+    UserCredential result;
     if (email.isEmpty ||
         password.isEmpty ||
         password == null ||
@@ -62,7 +63,14 @@ class AuthService {
   }
 
   logout() async {
-    await googleSignIn.disconnect();
+
+    if (await fb.isLoggedIn) {
+      await fb.logOut();
+    }
+    else{
+      await googleSignIn.disconnect();
+    }
+    await fb.logOut();
     await _firebaseAuth.signOut();
     snackbarService.showSnackbar(message: "logout successful");
   }
@@ -75,17 +83,15 @@ class AuthService {
         duration: Duration(seconds: 3));
   }
 
-  updateUserInfo(UserUpdateInfo updateUser) async {
-    await _firebaseAuth.currentUser().then((val) async {
-      await val.updateProfile(updateUser);
-    });
+  updateUserInfo(String name, String photoUrl) async {
+    await _firebaseAuth.currentUser.updateProfile(displayName: name, photoURL: photoUrl);
   }
 
   reloadUser() {}
 
   changePassword(String newPassword) async {
     try {
-      FirebaseUser user = await _firebaseAuth.currentUser();
+      User user = await _firebaseAuth.currentUser;
       user.updatePassword(newPassword).catchError((error) {
         snackbarService.showSnackbar(message: "${error.code}");
       });
@@ -94,6 +100,7 @@ class AuthService {
       snackbarService.showSnackbar(message: "${e.code}");
     }
   }
+
 }
 
 class GoogleSignInProvider extends ChangeNotifier {
@@ -121,7 +128,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     } else {
       final googleAuth = await user.authentication;
 
-      final credential = GoogleAuthProvider.getCredential(
+      final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -137,7 +144,7 @@ class AuthBloc {
   final authService = AuthService();
   final fb = FacebookLogin();
 
-  Stream<FirebaseUser> get currentUser => authService.userStream();
+  Stream<User> get currentUser => authService.userStream();
 
   loginFacebook() async {
     print('Starting Facebook Login');
@@ -158,7 +165,7 @@ class AuthBloc {
 
           //Convert to Auth Credential
           final AuthCredential credential
-          = FacebookAuthProvider.getCredential(accessToken: fbToken.token);
+          = FacebookAuthProvider.credential(fbToken.token);
 
           //User Credential to Sign in with Firebase
           final result = await authService.signInWithCredentail(credential);

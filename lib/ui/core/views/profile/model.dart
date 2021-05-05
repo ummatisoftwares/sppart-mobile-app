@@ -16,7 +16,7 @@ class ProfileModel extends BaseViewModel {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  FirebaseUser user;
+  User user;
   bool passwordUpdateEndabled = false;
 
   init() async {
@@ -33,25 +33,25 @@ class ProfileModel extends BaseViewModel {
   }
 
   login() {
-    navigationService.clearStackAndShow(Routes.authViewRoute);
+    navigationService.clearStackAndShow(Routes.authView);
   }
 
   updateProfile() async {
-    UserUpdateInfo updateUser = UserUpdateInfo();
-    updateUser.displayName = nameController.text;
-    await authService.updateUserInfo(updateUser);
+    UserInfo User;
+    String name = nameController.text;
+    await authService.updateUserInfo(name, User.photoURL);
     await user.reload();
     user = await authService.getUser();
     notifyListeners();
   }
 
   uploadProfileImage() async {
-    var file = await mediaService.getImage();
+    var file = await mediaService.getGalleryImage();
     if (file is File) {
       String url = await mediaService.uploadFile(file, path: "profiles/");
-      UserUpdateInfo updateUser = UserUpdateInfo();
-      updateUser.photoUrl = url;
-      await authService.updateUserInfo(updateUser);
+      UserInfo User;
+      String photoURL = url;
+      await authService.updateUserInfo(User.displayName, photoURL);
       await user.reload();
       user = await authService.getUser();
     }

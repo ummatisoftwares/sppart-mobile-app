@@ -57,6 +57,7 @@ class LoginView extends StatelessWidget {
           final FacebookProvider = Provider.of<AuthBloc>(context);
 
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

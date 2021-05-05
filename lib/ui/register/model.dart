@@ -18,7 +18,6 @@ class RegisterModel extends BaseViewModel {
   final _auth = locator<AuthService>();
   final _snackbar = locator<SnackbarService>();
 
-  TextEditingController confirmController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -45,7 +44,7 @@ class RegisterModel extends BaseViewModel {
     authService.userStream().listen((event) {
       if (event != null) {
         if (selectedItem != null) {
-          navigationService.clearStackAndShow(Routes.step4ViewRoute,
+          navigationService.clearStackAndShow(Routes.step4,
               arguments: Step4Arguments(
                   selectedBrand: selectedBrand,
                   selectedType: selectedtype,
@@ -54,23 +53,19 @@ class RegisterModel extends BaseViewModel {
                   selectedCategory: selectedCategory,
                   selectedItem: selectedItem));
         } else {
-          navigationService.clearStackAndShow(Routes.coreViewRoute);
+          navigationService.clearStackAndShow(Routes.coreView);
         }
       }
     });
   }
 
   register() async {
-    if (confirmController.text == passwordController.text) {
       await _auth.signUpWithEmailAndPassword(
           emailController.text, passwordController.text);
-    } else {
-      _snackbar.showSnackbar(message: "Password Does not match");
-    }
   }
 
   moveToLogin() {
-    navigationService.navigateTo(Routes.loginViewRoute,
+    navigationService.navigateTo(Routes.loginView,
         arguments: LoginViewArguments(
             selectedBrand: selectedBrand,
             selectedType: selectedtype,

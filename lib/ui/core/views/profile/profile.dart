@@ -33,14 +33,14 @@ class ProfileView extends StatelessWidget {
                         child: Column(
                           children: [
                             Center(
-                              child: model.user?.photoUrl != null
+                              child: model.user?.photoURL != null
                                   ? InkWell(
                                       onTap: () => model.uploadProfileImage(),
                                       child: Container(
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                    model.user.photoUrl)),
+                                                    model.user.photoURL)),
                                             shape: BoxShape.circle,
                                             color:
                                                 Colors.grey.withOpacity(0.4)),

@@ -15,9 +15,9 @@ class CarType {
 
   factory CarType.fromSnapshot(DocumentSnapshot doc) {
     return CarType(
-        id: doc.documentID,
-        name: doc.data['name'] ?? '',
-        brand: doc.data['brand'] ?? '',
-        imageURL: doc.data['imageURL'] ?? "");
+        id: doc.id,
+        name: doc.data()['name'] ?? '',
+        brand: doc.data()['brand'] ?? '',
+        imageURL: doc.data()['imageURL'] ?? "");
   }
 }

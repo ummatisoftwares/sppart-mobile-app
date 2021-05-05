@@ -33,7 +33,7 @@ class Step2Model extends BaseViewModel {
   }
 
   selectCategory(Category selected) {
-    _navigationService.navigateTo(Routes.step3ViewRoute,
+    _navigationService.navigateTo(Routes.step3,
         arguments: Step3Arguments(
             selectedBrand: selectedBrand,
             selectedType: selectedtype,

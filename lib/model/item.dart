@@ -24,10 +24,10 @@ class Item {
 
   factory Item.fromSnapshot(DocumentSnapshot doc) {
     return Item(
-      id: doc.documentID,
-      categoryId: doc.data['categoryId'],
-      name: doc.data['name'],
-      imageURL: doc.data['imageURL'],
+      id: doc.id,
+      categoryId: doc.data()['categoryId'],
+      name: doc.data()['name'],
+      imageURL: doc.data()['imageURL'],
     );
   }
 }

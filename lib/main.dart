@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,7 +26,7 @@ Map<int, Color> color = {
 
 // Main Page is core and not Auth
 // When clicking "Submit request" if no user logged in redirect to login page
-//todo:
+
 //DONE Dark theme initial switch value i settings
 //DONE cart should show login if user is not logged in
 //DONE Offer page should show extra feature and doesnt show null values
@@ -34,11 +35,14 @@ Map<int, Color> color = {
 Future main() async {
   await ThemeManager.initialise();
   setUpLocator();
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

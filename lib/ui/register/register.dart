@@ -36,6 +36,7 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
 
   bool agree = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class _RegisterViewState extends State<RegisterView> {
       builder: (context, model, child) {
         // bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -118,30 +120,15 @@ class _RegisterViewState extends State<RegisterView> {
                           child: TextField(
                               textAlign: TextAlign.center,
                               controller: model.passwordController,
-                              obscureText: true,
+                              obscureText: _obscureText,
                               style: TextStyle(color: Colors.black),
-                              decoration: InputDecoration.collapsed(
-                                  hintText: "Password", hintStyle: TextStyle(color: Colors.blueGrey))
+                              decoration: InputDecoration(
+                                suffixIcon: GestureDetector(onTap:()=> setState(() {_obscureText = !_obscureText;}),child: Icon(Icons.remove_red_eye,color: Colors.blueGrey[400])),
+                                  hintText: "Password", hintStyle: TextStyle(color: Colors.blueGrey),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(left: 42, bottom: 8, top: 8)
+                              )
                           )
-                      )
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                      height: 42,
-                      width: 280,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white60,
-                          borderRadius: BorderRadius.circular(18)),
-                      child:Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                                controller: model.confirmController,
-                                style: TextStyle(color: Colors.black),
-                                obscureText: true,
-                                decoration: InputDecoration.collapsed(
-                                    hintText: "Confirm Password", hintStyle: TextStyle(color: Colors.blueGrey,))
-                        ),
                       )
                   ),
                   SizedBox(height: 10),

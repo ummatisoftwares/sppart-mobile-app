@@ -54,7 +54,7 @@ class OfferDetailsPreBuy extends StatelessWidget {
 
             if (res.confirmed) {
               await firestore.addToCart(user.uid, offer);
-              nav.clearStackAndShow(Routes.coreViewRoute);
+              nav.clearStackAndShow(Routes.coreView);
             } else {}
           }
         },

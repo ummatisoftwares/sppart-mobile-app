@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:spraat/services/app_localization.dart';
-
 import 'model.dart';
 import 'package:stacked/stacked.dart';
 
@@ -35,6 +33,7 @@ class FeedView extends StatelessWidget {
                         child: Text("No Pending Requests"),
                       )
                     : Container(
+                        margin: EdgeInsets.only(top: 8),
                         child: ListView.builder(
                           itemCount: model.requests.length,
                           itemBuilder: (context, index) {
@@ -96,15 +95,15 @@ class CardView extends StatelessWidget {
                     Row(
                       children: [
                         SizedBox(width: 8),
-                        Image.asset("assets/logo_dark.png", height: 100, width: 100,),
+                        SizedBox(height: 100, width: 100,child: Center(child: Image.network( model.getBrand(model.requests[index].carBrand).imageURL, height: 80, width: 80))),
                         SizedBox(width: 8),
                         Column(
                           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(children:[ Icon(Icons.settings, color: Colors.blueGrey,), SizedBox(width: 8), Text(model.requests[index].itemName, style: TextStyle(color: Colors.black87))]),
-                            Row(children:[ Icon(Icons.time_to_leave, color: Colors.blueGrey), SizedBox(width: 8), Text("Car Name", style: TextStyle(color: Colors.black87))]),
-                            Row(children:[ Icon(Icons.av_timer, color: Colors.blueGrey), SizedBox(width: 8), Text("Model", style: TextStyle(color: Colors.black87))]),
+                            Row(children:[ Icon(Icons.settings, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].itemName, style: TextStyle(color: Colors.black87))]),
+                            Row(children:[ Icon(Icons.time_to_leave, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carName, style: TextStyle(color: Colors.black87))]),
+                            Row(children:[ Icon(Icons.av_timer, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carModel, style: TextStyle(color: Colors.black87))]),
                           ],
                         )
                       ],
@@ -116,7 +115,7 @@ class CardView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children:[
                           Row(children: [
-                            Icon(Icons.settings_backup_restore),
+                            Icon(Icons.settings_backup_restore, color: Theme.of(context).primaryColor),
                             Text(model.requests[index].time.toDate().toString().substring(0, 10), style: TextStyle(color: Colors.black87)),],),
                           Text(model.requests[index].status, style: TextStyle(color: getColor(model.requests[index].status), fontSize: 15, fontWeight: FontWeight.w500))
                         ]

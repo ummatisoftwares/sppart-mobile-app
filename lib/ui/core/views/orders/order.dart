@@ -23,7 +23,7 @@ class PurchasesModel extends BaseViewModel {
 
   getOrders() async {
     setBusy(true);
-    FirebaseUser user = await auth.getUser();
+    User user = await auth.getUser();
     if (user != null) {
       myOffers = await fireStore.getMyPurchases(user.uid);
     }

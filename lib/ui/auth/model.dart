@@ -36,13 +36,13 @@ class AuthModel extends BaseViewModel {
     notifyListeners();
     authService.userStream().listen((event) {
       if (event != null) {
-        navigationService.clearStackAndShow(Routes.coreViewRoute);
+        navigationService.clearStackAndShow(Routes.coreView);
       }
     });
   }
 
   moveToRegister() {
-    navigationService.navigateTo(Routes.registerViewRoute,
+    navigationService.navigateTo(Routes.registerView,
         arguments: RegisterViewArguments(
             selectedBrand: selectedBrand,
             selectedType: selectedtype,
@@ -53,7 +53,7 @@ class AuthModel extends BaseViewModel {
   }
 
   moveToLogin() {
-    navigationService.navigateTo(Routes.loginViewRoute,
+    navigationService.navigateTo(Routes.loginView,
         arguments: LoginViewArguments(
             selectedBrand: selectedBrand,
             selectedType: selectedtype,

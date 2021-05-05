@@ -114,8 +114,8 @@ class OfferDetails extends StatelessWidget {
                       title: "Purchase item?",
                       description: "Would you like to purchase this item ?");
                   if (res.confirmed) {
-                    FirebaseUser user = await auth.getUser();
-                    firestore.buyItem(number, offer, user.uid);
+                    User user = await auth.getUser();
+                    firestore.buyItem(number, offer, user.uid, offer.requestID);
                   }
                 }
               },

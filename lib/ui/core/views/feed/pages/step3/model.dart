@@ -39,14 +39,14 @@ class Step3Model extends BaseViewModel {
   getItems() async {
     setBusy(true);
     items = await _firestoreService.retrieveItems(categoryId: selectedCategory.id);
-    Item others = new Item(categoryId: selectedCategory.id, name: "Others", id: "336sSigrJFx48urfhGBK");
+    Item others = new Item(categoryId: "", name: "Others", id: "336sSigrJFx48urfhGBK", imageURL: "");
     items.add(others);
     notifyListeners();
     setBusy(false);
   }
 
   selectItem(Item selected) {
-    _navigationService.navigateTo(Routes.step4ViewRoute,
+    _navigationService.navigateTo(Routes.step4,
         arguments: Step4Arguments(
             selectedBrand: selectedBrand,
             selectedType: selectedtype,

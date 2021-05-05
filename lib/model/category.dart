@@ -14,9 +14,9 @@ class Category {
 
   factory Category.fromSnapshot(DocumentSnapshot doc) {
     return Category(
-      id: doc.documentID,
-      name: doc.data['name'] ?? '',
-      imageURL: doc.data['imageURL'] ?? '',
+      id: doc.id,
+      name: doc.data()['name'] ?? '',
+      imageURL: doc.data()['imageURL'] ?? '',
     );
   }
 }

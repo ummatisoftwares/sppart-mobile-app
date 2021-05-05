@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spraat/model/brand.dart';
@@ -71,9 +72,7 @@ class Step4 extends StatelessWidget {
                                     width:
                                         MediaQuery.of(context).size.width * 0.4,
                                     child: Text(
-                                      AppLocalizations.of(context)
-                                              .translate('brand') ??
-                                          "",
+                                      AppLocalizations.of(context).translate('brand') ?? "",
                                       style: TextStyle(
                                           fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                     )),
@@ -328,14 +327,11 @@ class Step4 extends StatelessWidget {
                                     RaisedButton(
                                       color: Theme.of(context).accentColor,
                                       child: Text(
-                                        AppLocalizations.of(context)
-                                            .translate('attachImage') ??
-                                            "",
+                                        AppLocalizations.of(context).translate('attachImage') ?? "",
                                         style:
                                         TextStyle(color: Colors.white),
                                       ),
-                                      onPressed: () =>
-                                          model.uploadItemImage(),
+                                      onPressed: () => showOptionsDialog(context, model),
                                     ),
                                   ],
                                 ),
@@ -346,14 +342,12 @@ class Step4 extends StatelessWidget {
                             RaisedButton(
                               color: Theme.of(context).accentColor,
                               child: Text(
-                                AppLocalizations.of(context)
-                                    .translate('attachImage') ??
-                                    "",
+                                AppLocalizations.of(context).translate('attachImage') ?? "",
                                 style:
                                 TextStyle(color: Colors.white),
                               ),
-                              onPressed: () =>
-                                  model.uploadItemImage(),
+                              onPressed: () => showOptionsDialog(context, model),
+
                             ),
                           ],
                         ),
@@ -397,4 +391,48 @@ class Step4 extends StatelessWidget {
       },
     );
   }
+}
+
+Future<void> showOptionsDialog(BuildContext context, Step4Model model) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Upload Image"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                GestureDetector(
+                  child: Row(
+                    children: [
+                      Icon(CupertinoIcons.camera_fill, color: Theme.of(context).primaryColor),
+                      SizedBox(width: 10),
+                      Text("Camera"),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    model.uploadCameraImage();
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                GestureDetector(
+                  child: Row(
+                    children: [
+                      Icon(CupertinoIcons.photo_fill_on_rectangle_fill, color: Theme.of(context).primaryColor),
+                      SizedBox(width: 10),
+                      Text("Photo Library"),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    model.uploadGalleryImage();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+  );
 }

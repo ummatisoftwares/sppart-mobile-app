@@ -20,69 +20,68 @@ class FirestoreService {
   final navService = locator<NavigationService>();
 
   final CollectionReference requestsCollectionReference =
-      Firestore.instance.collection('Requests');
+      FirebaseFirestore.instance.collection('Requests');
   final CollectionReference offersCollectionReference =
-      Firestore.instance.collection('Offers');
+      FirebaseFirestore.instance.collection('Offers');
   final CollectionReference brandsCollectionReference =
-      Firestore.instance.collection('Brand');
+      FirebaseFirestore.instance.collection('Brand');
   final CollectionReference typessCollectionReference =
-      Firestore.instance.collection('Types');
+      FirebaseFirestore.instance.collection('Types');
   final CollectionReference yearsCollectionReference =
-      Firestore.instance.collection('Years');
+      FirebaseFirestore.instance.collection('Years');
   final CollectionReference enginesCollectionReference =
-      Firestore.instance.collection('Engines');
+      FirebaseFirestore.instance.collection('Engines');
   final CollectionReference purchasesCollectionReference =
-      Firestore.instance.collection('Purchases');
+      FirebaseFirestore.instance.collection('Purchases');
 
   final CollectionReference userCollectionReference =
-      Firestore.instance.collection('Users');
+      FirebaseFirestore.instance.collection('Users');
 
   final CollectionReference partCategoriesCollectionReference =
-      Firestore.instance.collection('Part_Categories');
+      FirebaseFirestore.instance.collection('Part_Categories');
   final CollectionReference itemsCollectionReference =
-      Firestore.instance.collection('Item');
+      FirebaseFirestore.instance.collection('Item');
 
   Future<List<Offer>> getMyPurchases(String userId) async {
     var doc = await purchasesCollectionReference
-        .where("userId", isEqualTo: userId)
-        .getDocuments();
-    return doc.documents.map((e) => Offer.fromSnapshot(e)).toList();
+        .where("userId", isEqualTo: userId).get();
+    return doc.docs.map((e) => Offer.fromSnapshot(e)).toList();
   }
 
   Future<Brand> getBrand(String id) async {
-    var doc = await brandsCollectionReference.document(id).get();
+    var doc = await brandsCollectionReference.doc(id).get();
     return Brand.fromSnapshot(doc);
   }
 
   Future<CarType> getCarType(String id) async {
-    var doc = await typessCollectionReference.document(id).get();
+    var doc = await typessCollectionReference.doc(id).get();
     return CarType.fromSnapshot(doc);
   }
 
   Future<CarYear> getCarYear(String id) async {
-    var doc = await yearsCollectionReference.document(id).get();
+    var doc = await yearsCollectionReference.doc(id).get();
     return CarYear.fromSnapshot(doc);
   }
 
   Future<CarEngine> getCarEngine(String id) async {
-    var doc = await enginesCollectionReference.document(id).get();
+    var doc = await enginesCollectionReference.doc(id).get();
     return CarEngine.fromSnapshot(doc);
   }
 
   Future<Category> getCategory(String id) async {
-    var doc = await partCategoriesCollectionReference.document(id).get();
+    var doc = await partCategoriesCollectionReference.doc(id).get();
     return Category.fromSnapshot(doc);
   }
 
   Future<Item> getItem(String id) async {
-    var doc = await itemsCollectionReference.document(id).get();
+    var doc = await itemsCollectionReference.doc(id).get();
     return Item.fromSnapshot(doc);
   }
 
   Future<List<Brand>> retrieveBrands() async {
-    var docs = await brandsCollectionReference.getDocuments();
+    var docs = await brandsCollectionReference.get();
 
-    return docs.documents.map((e) => Brand.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Brand.fromSnapshot(e)).toList();
   }
 
   Future<List<Request>> retrieveRequests(String userId) async {
@@ -94,15 +93,15 @@ class FirestoreService {
     var docs = await requestsCollectionReference
         .where('userId', isEqualTo: userId)
         .orderBy('time', descending: true)
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => Request.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Request.fromSnapshot(e)).toList();
   }
 
   Future<List<Request>> retrieveAllRequests() async {
-    var docs = await requestsCollectionReference.getDocuments();
+    var docs = await requestsCollectionReference.get();
 
-    return docs.documents.map((e) => Request.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Request.fromSnapshot(e)).toList();
   }
 
   Future<List<CarType>> retrieveCarTypes(String brandId) async {
@@ -113,9 +112,9 @@ class FirestoreService {
 
     var docs = await typessCollectionReference
         .where('brand', isEqualTo: brandId)
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => CarType.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => CarType.fromSnapshot(e)).toList();
   }
 
   Future<List<CarYear>> retrieveCarYears(String typeId) async {
@@ -126,9 +125,9 @@ class FirestoreService {
 
     var docs = await yearsCollectionReference
         .where('type', isEqualTo: typeId)
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => CarYear.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => CarYear.fromSnapshot(e)).toList();
   }
 
   Future<List<CarEngine>> retrieveCarEngines(String yearId) async {
@@ -139,26 +138,26 @@ class FirestoreService {
 
     var docs = await enginesCollectionReference
         .where('year', isEqualTo: yearId)
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => CarEngine.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => CarEngine.fromSnapshot(e)).toList();
   }
 
   Future<List<Category>> retrievePartCategories() async {
-    var docs = await partCategoriesCollectionReference.getDocuments();
+    var docs = await partCategoriesCollectionReference.get();
 
-    return docs.documents.map((e) => Category.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Category.fromSnapshot(e)).toList();
   }
 
   Future<List<Item>> retrieveItems({String categoryId}) async {
     if (categoryId == null) {
-      var docs = await itemsCollectionReference.getDocuments();
-      return docs.documents.map((e) => Item.fromSnapshot(e)).toList();
+      var docs = await itemsCollectionReference.get();
+      return docs.docs.map((e) => Item.fromSnapshot(e)).toList();
     } else {
       var docs = await itemsCollectionReference
           .where("categoryId", isEqualTo: categoryId)
-          .getDocuments();
-      return docs.documents.map((e) => Item.fromSnapshot(e)).toList();
+          .get();
+      return docs.docs.map((e) => Item.fromSnapshot(e)).toList();
     }
   }
 
@@ -174,7 +173,7 @@ class FirestoreService {
 
   Future deleteCategory(Category category) async {
     await partCategoriesCollectionReference
-        .document(category.id)
+        .doc(category.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -194,7 +193,7 @@ class FirestoreService {
 
   Future deleteBrand(Brand brand) async {
     await brandsCollectionReference
-        .document(brand.id)
+        .doc(brand.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -214,7 +213,7 @@ class FirestoreService {
 
   Future deleteType(CarType type) async {
     await typessCollectionReference
-        .document(type.id)
+        .doc(type.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -234,7 +233,7 @@ class FirestoreService {
 
   Future deleteYear(CarYear type) async {
     await yearsCollectionReference
-        .document(type.id)
+        .doc(type.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -254,7 +253,7 @@ class FirestoreService {
 
   Future deleteEngine(CarEngine type) async {
     await enginesCollectionReference
-        .document(type.id)
+        .doc(type.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -285,7 +284,7 @@ class FirestoreService {
         snackbarService.showSnackbar(
             message: "Request Sent!", duration: Duration(seconds: 3));
 
-        navService.clearStackAndShow(Routes.coreViewRoute);
+        navService.clearStackAndShow(Routes.coreView);
       });
     } else {
       snackbarService.showSnackbar(
@@ -296,7 +295,7 @@ class FirestoreService {
 
   Future deleteItem(Item type) async {
     await itemsCollectionReference
-        .document(type.id)
+        .doc(type.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -317,17 +316,17 @@ class FirestoreService {
   Future<List<Offer>> retrieveOffers(String requestId) async {
     var docs = await offersCollectionReference
         .where('requestID', isEqualTo: requestId)
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => Offer.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Offer.fromSnapshot(e)).toList();
   }
 
   addOffer(Offer offer) async {
     if (offer.name != null && offer.price != null) {
       if (offer.id != null) {
         await offersCollectionReference
-            .document(offer.id)
-            .setData(offer.toDocument())
+            .doc(offer.id)
+            .set(offer.toDocument())
             .whenComplete(() {
           snackbarService.showSnackbar(
               message: "Request Sent!", duration: Duration(seconds: 3));
@@ -349,7 +348,7 @@ class FirestoreService {
 
   Future deleteOffer(Offer type) async {
     await offersCollectionReference
-        .document(type.id)
+        .doc(type.id)
         .delete()
         .catchError((onError) {
       snackbarService.showSnackbar(
@@ -359,38 +358,40 @@ class FirestoreService {
 
   Future addToCart(String userID, Offer offer) async {
     await userCollectionReference
-        .document(userID)
+        .doc(userID)
         .collection('Cart')
         .add(offer.toDocument());
   }
 
   Future deleteFromCart(String userID, String id) async {
     await userCollectionReference
-        .document(userID)
+        .doc(userID)
         .collection('Cart')
-        .document(id)
+        .doc(id)
         .delete();
   }
 
   getUserCart(String userID) async {
     var docs = await userCollectionReference
-        .document(userID)
+        .doc(userID)
         .collection('Cart')
-        .getDocuments();
+        .get();
 
-    return docs.documents.map((e) => Offer.fromSnapshot(e)).toList();
+    return docs.docs.map((e) => Offer.fromSnapshot(e)).toList();
   }
 
-  buyItem(String phoneNumber, Offer offer, String userID) async {
+  buyItem(String phoneNumber, Offer offer, String userID, String requestID) async {
     offer.phone = phoneNumber;
     offer.userId = userID;
     await purchasesCollectionReference.add(offer.toDocument());
+    await requestsCollectionReference.doc(requestID).update({"status" : "Completed"});
     await userCollectionReference
-        .document(userID)
+        .doc(userID)
         .collection('Cart')
-        .document(offer.id)
+        .doc(offer.id)
         .delete();
 
-    navService.clearStackAndShow(Routes.coreViewRoute);
+    navService.clearStackAndShow(Routes.coreView);
   }
+
 }
