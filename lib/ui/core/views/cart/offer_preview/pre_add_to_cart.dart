@@ -11,6 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 class OfferDetailsPreBuy extends StatelessWidget {
   final Offer offer;
 
+
   const OfferDetailsPreBuy({
     Key key,
     @required this.offer,

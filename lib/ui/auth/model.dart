@@ -20,13 +20,35 @@ class AuthModel extends BaseViewModel {
   CarEngine selectedEngine;
   Category selectedCategory;
   Item selectedItem;
+
+  // init(
+  //     {Brand brand,
+  //     CarType type,
+  //     CarYear year,
+  //     CarEngine engine,
+  //     Category category,
+  //     Item item}) async {
+  //   selectedBrand = brand;
+  //   selectedtype = type;
+  //   selectedYear = year;
+  //   selectedEngine = engine;
+  //   selectedCategory = category;
+  //   selectedItem = item;
+  //   notifyListeners();
+  //   authService.userStream().listen((event) {
+  //     if (event != null) {
+  //       navigationService.clearStackAndShow(Routes.coreView);
+  //     }
+  //   });
+  // }
+
   init(
       {Brand brand,
-      CarType type,
-      CarYear year,
-      CarEngine engine,
-      Category category,
-      Item item}) async {
+        CarType type,
+        CarYear year,
+        CarEngine engine,
+        Category category,
+        Item item}) async {
     selectedBrand = brand;
     selectedtype = type;
     selectedYear = year;
@@ -36,7 +58,18 @@ class AuthModel extends BaseViewModel {
     notifyListeners();
     authService.userStream().listen((event) {
       if (event != null) {
-        navigationService.clearStackAndShow(Routes.coreView);
+        if (selectedItem != null) {
+          navigationService.clearStackAndShow(Routes.step4,
+              arguments: Step4Arguments(
+                  selectedBrand: selectedBrand,
+                  selectedType: selectedtype,
+                  selectedYear: selectedYear,
+                  selectedEngine: selectedEngine,
+                  selectedCategory: selectedCategory,
+                  selectedItem: selectedItem));
+        } else {
+          navigationService.clearStackAndShow(Routes.coreView);
+        }
       }
     });
   }

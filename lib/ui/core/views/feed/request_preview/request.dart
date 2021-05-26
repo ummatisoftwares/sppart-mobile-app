@@ -8,18 +8,18 @@ import '../../image_preview.dart';
 import 'model.dart';
 
 class RequestPreview extends StatelessWidget {
-  final Request selectedRequest;
+  final String selectedRequestID;
 
-  const RequestPreview({Key key, this.selectedRequest}) : super(key: key);
+  const RequestPreview({Key key, this.selectedRequestID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RequestPreviewModel>.reactive(
-      onModelReady: (model) => model.init(selectedRequest),
+      onModelReady: (model) => model.init(selectedRequestID),
       viewModelBuilder: () => RequestPreviewModel(),
       builder: (context, model, child) {
         return Scaffold(
-          appBar: AppBar(title: Text("Reqest Details")),
+          appBar: AppBar(title: Text("Request Details")),
           body: Container(
             margin: EdgeInsets.all(10),
             child: model.isBusy

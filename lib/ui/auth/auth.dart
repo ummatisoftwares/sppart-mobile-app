@@ -93,7 +93,7 @@ class AuthView extends StatelessWidget {
                         SizedBox(height: 32),
                         GoogleSignInButton(onPressed: () {GoogleProvider.login();}, text: "Sign up with Google", borderRadius: 18,),
                         SizedBox(height: 12),
-                        FacebookSignInButton(onPressed: () { FacebookProvider.loginFacebook();},
+                        FacebookSignInButton(onPressed: () {FacebookProvider.loginFacebook();},
                           text: "Sign up with Facebook",
                           borderRadius: 18,),
                         Row(

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spraat/app/locator.dart';
+import 'package:spraat/app/router.gr.dart';
 
 import 'package:spraat/model/brand.dart';
 import 'package:spraat/model/category.dart';
@@ -160,6 +161,8 @@ class Step4Model extends BaseViewModel {
             phoneNumber: phoneEditingController.text,
             category: selectedCategory.id,
             itemName: selectedItem.name,
+            offerNum: "0",
+            isShow: "",
             locationURL: location != null
                 ? "https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}"
                 : null,
@@ -172,5 +175,15 @@ class Step4Model extends BaseViewModel {
         print("NOT OK");
       }
     }
+  }
+
+  moveToStep3(){
+    navService.navigateTo(Routes.step3,
+        arguments: Step3Arguments(
+            selectedBrand: selectedBrand,
+            selectedType: selectedtype,
+            selectedYear: selectedYear,
+            selectedEngine: selectedEngine,
+            selectedCategory: selectedCategory));
   }
 }

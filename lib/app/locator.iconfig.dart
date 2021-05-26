@@ -5,6 +5,7 @@
 // **************************************************************************
 
 import 'package:spraat/services/auth_service.dart';
+import 'package:spraat/services/push_notification_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:spraat/services/third_party_services.dart';
 import 'package:spraat/services/firestore_service.dart';
@@ -13,6 +14,7 @@ import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g) {
   final thirdPartyServicesModule = _$ThirdPartyServicesModule();
+  g.registerLazySingleton<PushNotificationService>(() => PushNotificationService());
   g.registerLazySingleton<AuthService>(() => AuthService());
   g.registerLazySingleton<DialogService>(
       () => thirdPartyServicesModule.dialogService);

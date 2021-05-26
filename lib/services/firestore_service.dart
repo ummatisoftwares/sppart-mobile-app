@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/app/router.gr.dart';
@@ -46,6 +47,11 @@ class FirestoreService {
     var doc = await purchasesCollectionReference
         .where("userId", isEqualTo: userId).get();
     return doc.docs.map((e) => Offer.fromSnapshot(e)).toList();
+  }
+
+  Future<Request> getRequest(String id) async {
+    var doc = await requestsCollectionReference.doc(id).get();
+    return Request.fromSnapshot(doc);
   }
 
   Future<Brand> getBrand(String id) async {
@@ -380,11 +386,13 @@ class FirestoreService {
     return docs.docs.map((e) => Offer.fromSnapshot(e)).toList();
   }
 
-  buyItem(String phoneNumber, Offer offer, String userID, String requestID) async {
+  buyItem(String phoneNumber, String name, Offer offer, String userID , String location) async {
     offer.phone = phoneNumber;
     offer.userId = userID;
+    String requestID = offer.requestID;
     await purchasesCollectionReference.add(offer.toDocument());
     await requestsCollectionReference.doc(requestID).update({"status" : "Completed"});
+    await requestsCollectionReference.doc(requestID).update({"locationURL" : location});
     await userCollectionReference
         .doc(userID)
         .collection('Cart')

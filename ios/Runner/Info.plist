@@ -61,6 +61,11 @@
             </array>
     	</dict>
     </array>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This application requires location services to work</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This application requires location services to work</string>
     
     <key>FacebookAppID</key>
     <string>3915875455197912</string>

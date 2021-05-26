@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:spraat/model/offer.dart';
 import 'package:spraat/services/app_localization.dart';
 import 'model.dart';
 import 'package:stacked/stacked.dart';
 
 class FeedView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedModel>.reactive(
@@ -44,22 +48,6 @@ class FeedView extends StatelessWidget {
       },
     );
   }
-  
-
-  // Container listCard(FeedModel model, int index) {
-  //   return ListTile(
-  //           onTap: () =>
-  //               model.previewRequest(model.requests[index]),
-  //           title: Text(
-  //             model.requests[index].itemName,
-  //           ),
-  //           subtitle: Text(model.requests[index].time
-  //               .toDate()
-  //               .toString()
-  //               .substring(0, 10)),
-  //           trailing: Text(model.requests[index].status, style: TextStyle(color: Colors.amber),),
-  //         );
-  // }
 }
 
 class CardView extends StatelessWidget {
@@ -71,6 +59,7 @@ class CardView extends StatelessWidget {
     this.model,
     this.index
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +94,21 @@ class CardView extends StatelessWidget {
                             Row(children:[ Icon(Icons.time_to_leave, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carName, style: TextStyle(color: Colors.black87))]),
                             Row(children:[ Icon(Icons.av_timer, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carModel, style: TextStyle(color: Colors.black87))]),
                           ],
+                        ),
+                        Spacer(),
+                        model.requests[index].isShow == "true"?
+                        Container(
+                          margin: EdgeInsets.only(top: 24),
+                          height: 22,
+                          width: 22,
+                          decoration: BoxDecoration(
+                            color: Colors.red, //getColor(model.requests[index].status),
+                            shape: BoxShape.circle
+                          ),
+                          child: Center(child: Text(model.requests[index].offerNum, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),))
                         )
+                        : Container(),
+                        SizedBox(width: 8),
                       ],
                     ),
                     Padding(
@@ -132,12 +135,14 @@ class CardView extends StatelessWidget {
 }
 
 Color getColor(String status){
-  if(status == "Pending")
+  if(status == "Processing")
     return Colors.amber;
   if(status == "Available")
     return Colors.green;
+    //return Color.fromRGBO(0, 81, 113, 1.0);
   if(status == "Completed")
     return Color.fromRGBO(0, 81, 113, 1.0);
+    //return Colors.green;
   if(status == "Canceled")
     return Colors.red;
 }

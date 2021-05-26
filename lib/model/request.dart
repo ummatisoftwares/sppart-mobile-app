@@ -20,6 +20,8 @@ class Request {
   final String category;
   final String locationURL;
   final String itemName;
+  final String offerNum;
+  final String isShow;
 
   const Request(
       {this.locationURL,
@@ -39,6 +41,8 @@ class Request {
       @required this.userId,
       this.note,
       this.imageURL,
+      this.offerNum,
+      this.isShow,
       @required this.category});
 
   Map<String, dynamic> toDocument() {
@@ -60,6 +64,8 @@ class Request {
       'category': category,
       'locationURL': locationURL,
       'itemName': itemName,
+      'offerNum': offerNum,
+      'isShow': isShow,
     };
   }
 
@@ -78,10 +84,12 @@ class Request {
         note: doc.data()['note'],
         imageURL: doc.data()['imageURL'],
         replyId: doc.data()['replyId'],
-        status: doc.data()['status'] ?? "Pending",
+        status: doc.data()['status'] ?? "Processing",
         category: doc.data()['category'],
         locationURL: doc.data()['locationURL'],
         itemName: doc.data()['itemName'] ?? "Unnamed",
+        offerNum: doc.data()['offerNum'] ?? "0",
+        isShow: doc.data()['isShow'] ?? "",
         phoneNumber: doc.data()['phoneNumber']);
   }
 }

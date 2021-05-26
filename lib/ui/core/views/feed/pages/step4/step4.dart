@@ -45,8 +45,9 @@ class Step4 extends StatelessWidget {
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
-              title: Text(
-                  AppLocalizations.of(context).translate('addRequest') ?? "")),
+              title: Text(AppLocalizations.of(context).translate('addRequest') ?? ""),
+              //leading: IconButton( onPressed: ()=> model.moveToStep3() , icon: Icon(Icons.arrow_back, color: Colors.white,)),
+          ),
           body: Container(
             margin: EdgeInsets.all(10),
             child: model.isBusy

@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:provider/provider.dart';
 import 'package:spraat/services/app.dart';
+import 'package:spraat/services/push_notification_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'app/locator.dart';
@@ -24,19 +27,19 @@ Map<int, Color> color = {
   900: Color.fromRGBO(0, 81, 113, 1),
 };
 
-// Main Page is core and not Auth
-// When clicking "Submit request" if no user logged in redirect to login page
-
-//DONE Dark theme initial switch value i settings
-//DONE cart should show login if user is not logged in
-//DONE Offer page should show extra feature and doesnt show null values
-//DONE Placing order page should allow the user to choose payment method (benefit disabled)
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("This is running in onBackgroundMessage Function");
+  PushNotificationService notify = PushNotificationService();
+  notify.serializeAndNavigate(message);
+}
 
 Future main() async {
   await ThemeManager.initialise();
   setUpLocator();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
 }
 

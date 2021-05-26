@@ -1,25 +1,40 @@
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/offer.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
+import 'package:spraat/ui/core/views/cart/offer_preview/maps.dart';
+import 'package:spraat/ui/core/views/cart/offer_preview/offer_location.dart';
 
 import 'package:stacked_services/stacked_services.dart';
 
-class OfferDetails extends StatelessWidget {
+class OfferDetails extends StatefulWidget {
   final Offer offer;
   final bool preview;
 
   const OfferDetails({Key key, @required this.offer, this.preview: false})
       : super(key: key);
-  static final _formKey = GlobalKey<FormState>();
+
+  @override
+  _OfferDetailsState createState() => _OfferDetailsState();
+}
+
+LatLng location;
+
+class _OfferDetailsState extends State<OfferDetails> {
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String number;
+    String name;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,11 +44,68 @@ class OfferDetails extends StatelessWidget {
           margin: EdgeInsets.all(10),
           child: SingleChildScrollView(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              offer.detailsView(context),
+              widget.offer.detailsView(context),
               Divider(),
-              preview
+              SizedBox(height: 12),
+              Text(
+                "Name",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-zA-Z ]')),
+                      ],
+                      onChanged: (value) => name = value,
+                      decoration: InputDecoration(
+                          hintText: "Name",
+                          icon: Icon(Icons.perm_contact_cal)),
+                      // ignore: missing_return
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Name must not be empty";
+                        }
+                      },
+                    ),
+                    SizedBox(height: 24),
+                    Text(
+                      "Contact Info",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[0-9]')),
+                      ],
+                      onChanged: (value) => number = value,
+                      decoration: InputDecoration(
+                          hintText: "Phone number",
+                          icon: Icon(Icons.phone)),
+                      // ignore: missing_return
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Phone number must not be empty";
+                        }
+                        if (value.length != 8) {
+                          return "Phone number include 8 numbers";
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 24),
+              widget.preview
                   ? Container()
                   : Column(
                       children: [
@@ -50,7 +122,7 @@ class OfferDetails extends StatelessWidget {
                                   color: Theme.of(context).accentColor,
                                 ),
                                 onPressed: () {}),
-                            Text("Cash")
+                            Text("Cash on Delivery")
                           ],
                         ),
                         Row(
@@ -64,64 +136,19 @@ class OfferDetails extends StatelessWidget {
                             Text("Benefit (Coming Soon)")
                           ],
                         ),
-                        Text(
-                          "Contact Info",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]')),
-                                ],
-                                onChanged: (value) => number = value,
-                                decoration: InputDecoration(
-                                    hintText: "Phone number",
-                                    icon: Icon(Icons.phone)),
-                                // ignore: missing_return
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Phone number must not be empty";
-                                  }
-                                  if (value.length != 8) {
-                                    return "Phone number include 8 numbers";
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                        SizedBox(height: 16),
                       ],
                     ),
             ],
           ))),
-      floatingActionButton: preview
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: () async {
-                final dial = locator<DialogService>();
-                final firestore = locator<FirestoreService>();
-                final auth = locator<AuthService>();
-                if (_formKey.currentState.validate()) {
-                  var res = await dial.showConfirmationDialog(
-                      cancelTitle: "Cancel",
-                      confirmationTitle: "Yes",
-                      title: "Purchase item?",
-                      description: "Would you like to purchase this item ?");
-                  if (res.confirmed) {
-                    User user = await auth.getUser();
-                    firestore.buyItem(number, offer, user.uid, offer.requestID);
-                  }
-                }
-              },
-              icon: Icon(Icons.shopping_cart),
-              label: Text("Buy"),
-            ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            if(_formKey.currentState.validate())
+              {Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => OfferLocation(number: number ,name: name ,offer: widget.offer)));}
+          },
+          icon: Icon(Icons.done),
+          label: Text("Next"),
+      ),
     );
   }
 }

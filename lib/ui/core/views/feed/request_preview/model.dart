@@ -36,9 +36,10 @@ class RequestPreviewModel extends BaseViewModel {
 
   List<Offer> offers = List<Offer>();
 
-  init(Request request) async {
+  init(String requestID) async {
     setBusy(true);
-    selectedRequest = request;
+    selectedRequest = await getRequest(requestID);
+    await updateOfferNum();
 
     await getBrand();
     await getYear();
@@ -51,9 +52,19 @@ class RequestPreviewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  updateOfferNum() async {
+    await _firestoreService.requestsCollectionReference.doc(selectedRequest.id).update({"offerNum" : "0"});
+    await _firestoreService.requestsCollectionReference.doc(selectedRequest.id).update({"isShow" : ""});
+  }
+
   Future<List<Offer>> getRequestOffers() async {
     offers = await _firestoreService.retrieveOffers(selectedRequest.id);
     return offers;
+  }
+
+  Future<Request> getRequest(String requestID) async {
+    selectedRequest = await _firestoreService.getRequest(requestID);
+    return selectedRequest;
   }
 
   getBrand() async {
