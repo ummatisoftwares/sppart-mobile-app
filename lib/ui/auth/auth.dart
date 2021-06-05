@@ -31,7 +31,7 @@ class AuthView extends StatelessWidget {
       this.selectedYear,
       this.selectedEngine,
       this.selectedCategory,
-      this.selectedItem})
+      this.selectedItem,})
       : super(key: key);
 
   @override
@@ -49,7 +49,7 @@ class AuthView extends StatelessWidget {
                     year: selectedYear,
                     engine: selectedEngine,
                     category: selectedCategory,
-                    item: selectedItem),
+                    item: selectedItem,),
             viewModelBuilder: () => AuthModel(),
             builder: (context, model, child) {
               //bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
@@ -91,9 +91,9 @@ class AuthView extends StatelessWidget {
                                 color: Colors.blueGrey,
                                 fontWeight: FontWeight.w500)),
                         SizedBox(height: 32),
-                        GoogleSignInButton(onPressed: () {GoogleProvider.login();}, text: "Sign up with Google", borderRadius: 18,),
+                        GoogleSignInButton(onPressed: () {GoogleProvider.login(); model.signIn(context);}, text: "Sign up with Google", borderRadius: 18,),
                         SizedBox(height: 12),
-                        FacebookSignInButton(onPressed: () {FacebookProvider.loginFacebook();},
+                        FacebookSignInButton(onPressed: () {FacebookProvider.loginFacebook(); model.signIn(context);},
                           text: "Sign up with Facebook",
                           borderRadius: 18,),
                         Row(

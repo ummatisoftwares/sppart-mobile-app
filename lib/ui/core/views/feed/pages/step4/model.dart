@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/app/router.gr.dart';
 
@@ -49,13 +50,15 @@ class Step4Model extends BaseViewModel {
       CarYear year,
       CarEngine engine,
       Category category,
-      Item item}) {
+      Item item,
+      }) async {
     selectedBrand = brand;
     selectedtype = type;
     selectedYear = year;
     selectedEngine = engine;
     selectedCategory = category;
     selectedItem = item;
+    await getData();
     notifyListeners();
   }
 
@@ -66,7 +69,6 @@ class Step4Model extends BaseViewModel {
       uploadedImage = await mediaService.uploadFile(file, path: "itemRequests/");
       images.add(uploadedImage);
     }
-
     notifyListeners();
     setBusy(false);
   }
@@ -134,16 +136,24 @@ class Step4Model extends BaseViewModel {
     notifyListeners();
   }
 
-  submitRequest() async {
+  submitRequest(BuildContext context) async {
     User user = await authService.getUser();
     if (user == null) {
+      snackbar.showSnackbar(message: "Kindly Signup/SignIn before Adding Request");
+      await saveData();
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (context) => AuthView(selectedItem: selectedItem),
+      //   ),
+      // );
       navService.navigateToView(AuthView(
           selectedBrand: selectedBrand,
           selectedType: selectedtype,
           selectedYear: selectedYear,
           selectedEngine: selectedEngine,
           selectedCategory: selectedCategory,
-          selectedItem: selectedItem));
+          selectedItem: selectedItem,
+      ));
     } else {
       if (formKey.currentState.validate()) {
         User user = await authService.getUser();
@@ -170,6 +180,7 @@ class Step4Model extends BaseViewModel {
 
         print(req.locationURL);
         _firestoreService.addRequest(req);
+        await removeDate();
         print("OK");
       } else {
         print("NOT OK");
@@ -177,13 +188,24 @@ class Step4Model extends BaseViewModel {
     }
   }
 
-  moveToStep3(){
-    navService.navigateTo(Routes.step3,
-        arguments: Step3Arguments(
-            selectedBrand: selectedBrand,
-            selectedType: selectedtype,
-            selectedYear: selectedYear,
-            selectedEngine: selectedEngine,
-            selectedCategory: selectedCategory));
+  saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phone', phoneEditingController.text);
+    prefs.setString('description', noteEditingController.text);
+    prefs.setStringList('images',images);
+  }
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    phoneEditingController.text = prefs.getString('phone') ?? '';
+    noteEditingController.text = prefs.getString('description') ?? '';
+    images = prefs.getStringList('images') ?? [];
+  }
+
+  removeDate() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('phone');
+    prefs.remove('description');
+    prefs.remove('images');
   }
 }

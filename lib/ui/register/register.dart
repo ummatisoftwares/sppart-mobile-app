@@ -18,6 +18,7 @@ class RegisterView extends StatefulWidget {
   final CarEngine selectedEngine;
   final Category selectedCategory;
   final Item selectedItem;
+  static int count;
 
   const RegisterView(
       {Key key,
@@ -37,6 +38,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   bool agree = false;
   bool _obscureText = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +152,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ],
                   ),
                   SizedBox(height: 6),
-                  agree? SpraatSignInButton(onPressed: (){model.register();} ,text: "CREATE ACCOUNT", borderRadius: 18,) : SpraatSignInButton(onPressed: (){} ,text: "CREATE ACCOUNT", borderRadius: 18, buttonColor: Color(0xFF226B95).withOpacity(0.6)),
+                  agree? SpraatSignInButton(onPressed: (){model.register(); model.signIn(context);} ,text: "CREATE ACCOUNT", borderRadius: 18,) : SpraatSignInButton(onPressed: (){} ,text: "CREATE ACCOUNT", borderRadius: 18, buttonColor: Color(0xFF226B95).withOpacity(0.6)),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

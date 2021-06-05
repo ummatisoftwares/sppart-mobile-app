@@ -67,7 +67,7 @@ class AuthService {
     if (await fb.isLoggedIn) {
       await fb.logOut();
     }
-    else{
+    else if (googleSignIn.currentUser != null){
       await googleSignIn.disconnect();
     }
     await fb.logOut();

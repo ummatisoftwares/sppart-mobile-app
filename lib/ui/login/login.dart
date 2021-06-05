@@ -133,7 +133,7 @@ class LoginView extends StatelessWidget {
                       )
                   ),
                   SizedBox(height: 20),
-                  SpraatSignInButton(onPressed: (){model.login();} ,text: "Sign In", borderRadius: 18, padding: 60,),
+                  SpraatSignInButton(onPressed: (){model.login();  model.signIn(context);} ,text: "Sign In", borderRadius: 18, padding: 60,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -143,9 +143,9 @@ class LoginView extends StatelessWidget {
                       Container(margin: EdgeInsets.fromLTRB(24, 28, 0, 28),height: 2, width: 100, color: Colors.blueGrey[200],),
                     ],
                   ),
-                  GoogleSignInButton(onPressed: (){GoogleProvider.login();},text: "Sign In with Google", borderRadius: 18,),
+                  GoogleSignInButton(onPressed: (){GoogleProvider.login(); model.signIn(context);},text: "Sign In with Google", borderRadius: 18,),
                   SizedBox(height: 12),
-                  FacebookSignInButton(onPressed:(){FacebookProvider.loginFacebook();}, text: "Sign In with Facebook", borderRadius: 18,),
+                  FacebookSignInButton(onPressed:(){FacebookProvider.loginFacebook();  model.signIn(context);}, text: "Sign In with Facebook", borderRadius: 18,),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

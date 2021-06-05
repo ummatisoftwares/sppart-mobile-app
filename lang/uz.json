@@ -35,6 +35,12 @@
     "category":"قسم",
     "confirmPassword":"پاس ورڈ کی تصدیق کریں",
     "phoneNumber":"فون نمبر",
-    "selectItem":"آئٹم منتخب کریں"
+    "selectItem":"آئٹم منتخب کریں",
+    "price":"قیمت",
+    "specification":"تفصیلات",
+    "condition":"حالت",
+    "warranty":"وارنٹی",
+    "validTill": "اس تاریخ تک",
+    "image" : "تصویر"
 
 }

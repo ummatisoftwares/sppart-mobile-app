@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/app/router.gr.dart';
 import 'package:spraat/model/brand.dart';
@@ -20,7 +21,7 @@ class AuthModel extends BaseViewModel {
   CarEngine selectedEngine;
   Category selectedCategory;
   Item selectedItem;
-
+  
   // init(
   //     {Brand brand,
   //     CarType type,
@@ -48,7 +49,7 @@ class AuthModel extends BaseViewModel {
         CarYear year,
         CarEngine engine,
         Category category,
-        Item item}) async {
+        Item item,}) async {
     selectedBrand = brand;
     selectedtype = type;
     selectedYear = year;
@@ -56,22 +57,6 @@ class AuthModel extends BaseViewModel {
     selectedCategory = category;
     selectedItem = item;
     notifyListeners();
-    authService.userStream().listen((event) {
-      if (event != null) {
-        if (selectedItem != null) {
-          navigationService.clearStackAndShow(Routes.step4,
-              arguments: Step4Arguments(
-                  selectedBrand: selectedBrand,
-                  selectedType: selectedtype,
-                  selectedYear: selectedYear,
-                  selectedEngine: selectedEngine,
-                  selectedCategory: selectedCategory,
-                  selectedItem: selectedItem));
-        } else {
-          navigationService.clearStackAndShow(Routes.coreView);
-        }
-      }
-    });
   }
 
   moveToRegister() {
@@ -98,5 +83,25 @@ class AuthModel extends BaseViewModel {
 
   moveBack() {
     navigationService.back();
+  }
+
+  signIn(BuildContext context){
+    authService.userStream().listen((event) {
+      if (event != null) {
+        if (selectedItem != null) {
+          navigationService.clearStackAndShow(Routes.step4,
+              arguments: Step4Arguments(
+                  selectedBrand: selectedBrand,
+                  selectedType: selectedtype,
+                  selectedYear: selectedYear,
+                  selectedEngine: selectedEngine,
+                  selectedCategory: selectedCategory,
+                  selectedItem: selectedItem
+              ));
+        } else {
+          navigationService.clearStackAndShow(Routes.coreView);
+        }
+      }
+    });
   }
 }

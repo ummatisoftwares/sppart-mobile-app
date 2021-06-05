@@ -41,22 +41,6 @@ class RegisterModel extends BaseViewModel {
     selectedCategory = category;
     selectedItem = item;
     notifyListeners();
-    authService.userStream().listen((event) {
-      if (event != null) {
-        if (selectedItem != null) {
-          navigationService.clearStackAndShow(Routes.step4,
-              arguments: Step4Arguments(
-                  selectedBrand: selectedBrand,
-                  selectedType: selectedtype,
-                  selectedYear: selectedYear,
-                  selectedEngine: selectedEngine,
-                  selectedCategory: selectedCategory,
-                  selectedItem: selectedItem));
-        } else {
-          navigationService.clearStackAndShow(Routes.coreView);
-        }
-      }
-    });
   }
 
   register() async {
@@ -77,5 +61,25 @@ class RegisterModel extends BaseViewModel {
 
   moveBack() {
     navigationService.back();
+  }
+
+  signIn(BuildContext context){
+    authService.userStream().listen((event) {
+      if (event != null) {
+        if (selectedItem != null) {
+          navigationService.clearStackAndShow(Routes.step4,
+              arguments: Step4Arguments(
+                  selectedBrand: selectedBrand,
+                  selectedType: selectedtype,
+                  selectedYear: selectedYear,
+                  selectedEngine: selectedEngine,
+                  selectedCategory: selectedCategory,
+                  selectedItem: selectedItem
+              ));
+        } else {
+          navigationService.clearStackAndShow(Routes.coreView);
+        }
+      }
+    });
   }
 }

@@ -39,6 +39,33 @@ class LoginModel extends BaseViewModel {
     selectedCategory = category;
     selectedItem = item;
     notifyListeners();
+    // authService.userStream().listen((event) {
+    //   if (event != null) {
+    //     if (selectedItem != null) {
+    //       navigationService.clearStackAndShow(Routes.step4,
+    //           arguments: Step4Arguments(
+    //               selectedBrand: selectedBrand,
+    //               selectedType: selectedtype,
+    //               selectedYear: selectedYear,
+    //               selectedEngine: selectedEngine,
+    //               selectedCategory: selectedCategory,
+    //               selectedItem: selectedItem));
+    //     } else {
+    //       navigationService.clearStackAndShow(Routes.coreView);
+    //     }
+    //   }
+    // });
+  }
+
+  login() async {
+    await authService.login(emailController.text, passwordController.text);
+  }
+
+  moveBack() {
+    navigationService.back();
+  }
+
+  signIn(BuildContext){
     authService.userStream().listen((event) {
       if (event != null) {
         if (selectedItem != null) {
@@ -55,14 +82,5 @@ class LoginModel extends BaseViewModel {
         }
       }
     });
-  }
-
-  login() async {
-    await authService.login(emailController.text, passwordController.text);
-  }
-
-  moveBack() {
-    navigationService.back();
-    navigationService.back();
   }
 }

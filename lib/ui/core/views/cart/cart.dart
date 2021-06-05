@@ -68,28 +68,49 @@ class CartView extends StatelessWidget {
                       ? Center(
                           child: Text("Your Cart is empty"),
                         )
-                      : ListView.separated(
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount: model.cart.length,
-                          itemBuilder: (context, index) => ListTile(
-                                onTap: () => model.navigate(model.cart[index]),
-                                onLongPress: () =>
-                                    model.deleteFromCart(model.cart[index]),
-                                leading: model.cart[index].imageURL == null
-                                    ? Container(
-                                        color: Colors.grey,
-                                        width: 50,
-                                        height: 100,
-                                        child: Icon(Icons.image),
-                                      )
-                                    : Container(
-                                        width: 50,
-                                        child: Image.network(
-                                            model.cart[index].imageURL)),
-                                title: Text(model.cart[index].name),
-                                subtitle: Text(model.cart[index].brand),
-                                trailing: Text(model.cart[index].price),
-                              )),
+                      : Container(
+                        margin: EdgeInsets.all(12),
+                        child: ListView.builder(
+                            //separatorBuilder: (context, index) => Divider(),
+                            itemCount: model.cart.length,
+                            itemBuilder: (context, index) =>
+                                Card(
+                                  child: ListTile(
+                                    onTap: () => model.navigate(model.cart[index]),
+                                    dense: true,
+                                    contentPadding: EdgeInsets.only(left: 16.0, right: 6.0),
+                                    title: Text(model.cart[index].name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                                    subtitle: Text(model.cart[index].brand),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(model.cart[index].price + " BHD", style: TextStyle(fontWeight: FontWeight.w600,)),
+                                        Icon(Icons.navigate_next, color: Theme.of(context).primaryColor,)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                // ListTile(
+                                //   onTap: () => model.navigate(model.cart[index]),
+                                //   onLongPress: () =>
+                                //       model.deleteFromCart(model.cart[index]),
+                                //   leading: model.cart[index].imageURL == null
+                                //       ? Container(
+                                //           color: Colors.grey,
+                                //           width: 50,
+                                //           height: 100,
+                                //           child: Icon(Icons.image),
+                                //         )
+                                //       : Container(
+                                //           width: 50,
+                                //           child: Image.network(
+                                //               model.cart[index].imageURL)),
+                                //   title: Text(model.cart[index].name),
+                                //   subtitle: Text(model.cart[index].brand),
+                                //   trailing: Text(model.cart[index].price),
+                                // )
+          ),
+                      ),
         );
       },
     );

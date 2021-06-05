@@ -63,15 +63,24 @@ class OrdersView extends StatelessWidget {
                         child: Text("No Orders"),
                       )
                     : Container(
+                        margin: EdgeInsets.all(12),
                         child: ListView.builder(
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              onTap: () =>
-                                  model.navigate(model.myOffers[index]),
-                              leading: Text(
-                                model.myOffers[index].name,
+                            return Card(
+                              child: ListTile(
+                                onTap: () => model.navigate(model.myOffers[index]),
+                                dense: true,
+                                contentPadding: EdgeInsets.only(left: 16.0, right: 6.0),
+                                title: Text(model.myOffers[index].name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                                subtitle: Text(model.myOffers[index].brand),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(model.myOffers[index].price + " BHD", style: TextStyle(fontWeight: FontWeight.w600,)),
+                                    Icon(Icons.navigate_next, color: Theme.of(context).primaryColor,)
+                                  ],
+                                ),
                               ),
-                              trailing: Text(model.myOffers[index].price),
                             );
                           },
                           itemCount: model.myOffers.length,

@@ -92,6 +92,7 @@ class _MapsState extends State<Maps> {
   }
 
   void _currentLocation() async {
+    await askPosition();
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
@@ -111,6 +112,7 @@ class _MapsState extends State<Maps> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       loadingLocation = false;
+      //Geolocator.requestPermission();
       snackbar.showSnackbar(message: "Location services are disabled.");
       return Future.error('Location services are disabled.');
     }
@@ -120,9 +122,9 @@ class _MapsState extends State<Maps> {
       loadingLocation = false;
       snackbar.showSnackbar(
           message:
-          "Location permissions are permantly denied, we cannot request permissions.");
+          "Location permissions are permantly denied, we cannot request permissions");
       return Future.error(
-          'Location permissions are permantly denied, we cannot request permissions.');
+          'Location permissions are permantly denied, we cannot request permissions');
     }
 
     if (permission == LocationPermission.denied) {
@@ -131,8 +133,7 @@ class _MapsState extends State<Maps> {
           permission != LocationPermission.always) {
         loadingLocation = false;
         snackbar.showSnackbar(
-            message:
-            "  'Location permissions are denied (actual value: $permission).");
+            message: "  'Location permissions are denied (actual value: $permission).");
         return Future.error(
             'Location permissions are denied (actual value: $permission).');
       }
@@ -142,7 +143,37 @@ class _MapsState extends State<Maps> {
       loadingLocation = false;
     });
     loadingLocation = false;
-    print(location);
+    setState(() {
+      print(location);
+    });
+  }
+
+  askPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      loadingLocation = false;
+      permission = await Geolocator.requestPermission();
+      if(permission != LocationPermission.whileInUse && permission != LocationPermission.always)
+        {
+          snackbar.showSnackbar(
+              message: "Location service is not enabled");
+          return Future.error(
+              'Location service is not enabled');
+        }
+      else{
+        location = await Geolocator.getCurrentPosition().catchError((onError) {
+          loadingLocation = false;
+        });
+        loadingLocation = false;
+        setState(() {
+          print(location);
+        });
+      }
+    }
+
   }
 
 }

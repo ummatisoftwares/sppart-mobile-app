@@ -9,7 +9,7 @@ import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/offer.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
-import 'package:spraat/ui/core/views/cart/offer_preview/maps.dart';
+import 'package:spraat/services/maps.dart';
 import 'package:spraat/ui/core/views/cart/offer_preview/offer_location.dart';
 
 import 'package:stacked_services/stacked_services.dart';
@@ -46,102 +46,122 @@ class _OfferDetailsState extends State<OfferDetails> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              widget.offer.detailsView(context),
-              Divider(),
-              SizedBox(height: 12),
-              Text(
-                "Name",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[a-zA-Z ]')),
-                      ],
-                      onChanged: (value) => name = value,
-                      decoration: InputDecoration(
-                          hintText: "Name",
-                          icon: Icon(Icons.perm_contact_cal)),
-                      // ignore: missing_return
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Name must not be empty";
-                        }
-                      },
-                    ),
-                    SizedBox(height: 24),
-                    Text(
-                      "Contact Info",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[0-9]')),
-                      ],
-                      onChanged: (value) => number = value,
-                      decoration: InputDecoration(
-                          hintText: "Phone number",
-                          icon: Icon(Icons.phone)),
-                      // ignore: missing_return
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Phone number must not be empty";
-                        }
-                        if (value.length != 8) {
-                          return "Phone number include 8 numbers";
-                        }
-                      },
-                    ),
-                  ],
+              widget.preview ? Container() : SizedBox(height: 16),
+              widget.preview ? Container() : Text("Contact Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              widget.preview ? Container() : SizedBox(height: 8),
+              widget.preview ? Container() :
+              Card(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 8),
+                      // Text(
+                      //   "Name",
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.bold, fontSize: 18),
+                      // ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.name,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[a-zA-Z ]')),
+                          ],
+                          onChanged: (value) => name = value,
+                          decoration: InputDecoration(
+                              hintText: "Name",
+                              icon: Icon(Icons.perm_contact_cal, color: Theme.of(context).primaryColor,)),
+                          // ignore: missing_return
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Name must not be empty";
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      // Text(
+                      //   "Contact Info",
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.bold, fontSize: 18),
+                      // ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[0-9]')),
+                          ],
+                          onChanged: (value) => number = value,
+                          decoration: InputDecoration(
+                              hintText: "Phone number",
+                              icon: Icon(Icons.phone, color: Theme.of(context).primaryColor,)),
+                          // ignore: missing_return
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Phone number must not be empty";
+                            }
+                            if (value.length != 8) {
+                              return "Phone number include 8 numbers";
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 24),
-              widget.preview
-                  ? Container()
-                  : Column(
-                      children: [
-                        Text(
-                          "Payment Method",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                icon: Icon(
-                                  Icons.check_circle,
-                                  color: Theme.of(context).accentColor,
-                                ),
-                                onPressed: () {}),
-                            Text("Cash on Delivery")
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                icon: Icon(
-                                  Icons.circle,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: null),
-                            Text("Benefit (Coming Soon)")
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                      ],
-                    ),
+              SizedBox(height: 16),
+              widget.preview ? Container() : Text("Payment Method", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              widget.preview ? Container() : SizedBox(height: 8),
+              widget.preview ? Container() : Card(
+                    child: Column(
+                        children: [
+                          SizedBox(height: 12),
+                          // Text(
+                          //   "Payment Method",
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold, fontSize: 18),
+                          // ),
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.check_circle,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                  onPressed: () {}),
+                              Text("Cash on Delivery")
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.circle,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: null),
+                              Text("Benefit (Coming Soon)", style: TextStyle(color: Colors.grey),)
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                        ],
+                      ),
+                  ),
+              SizedBox(height: 16),
+              Text("Offer", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              SizedBox(height: 8),
+              widget.offer.detailsView(context),
+              SizedBox(height: 12),
             ],
           ))),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: widget.preview ? Container()
+          :FloatingActionButton.extended(
           onPressed: (){
             if(_formKey.currentState.validate())
               {Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => OfferLocation(number: number ,name: name ,offer: widget.offer)));}

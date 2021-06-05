@@ -94,6 +94,7 @@ class RequestPreviewModel extends BaseViewModel {
   }
 
   addToCart(Offer offer) async {
+    print(offer.imageURL);
     nav.navigateToView(OfferDetailsPreBuy(offer: offer));
     // var user = await authService.getUser();
 

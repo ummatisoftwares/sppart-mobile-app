@@ -7,7 +7,7 @@ import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/offer.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
-import 'package:spraat/ui/core/views/cart/offer_preview/maps.dart';
+import 'package:spraat/services/maps.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class OfferLocation extends StatefulWidget {
@@ -95,7 +95,7 @@ class _OfferLocationState extends State<OfferLocation> {
                 ],
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height*0.265,
+                top: MediaQuery.of(context).size.height*0.268,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                           primary: Colors.white,
@@ -106,7 +106,6 @@ class _OfferLocationState extends State<OfferLocation> {
                           ),
                         ),
                   onPressed: () async {
-                    await determinePosition();
                     var result = await Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => Maps()));
                     setState(() {
                       locate = result;
@@ -115,10 +114,7 @@ class _OfferLocationState extends State<OfferLocation> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 12.0),
-                    child: Text(
-                      "Add location",
-                      style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
-                    ),
+                    child: location == null ? Text("Add location", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18)) : Icon(Icons.done, color: Theme.of(context).primaryColor,),
                   ),
                 ),
               ),
@@ -165,31 +161,5 @@ class _OfferLocationState extends State<OfferLocation> {
               label: Text("Buy"),
             ),
     );
-  }
-}
-
-Future determinePosition() async {
-  //loadingLocation = true;
-  bool serviceEnabled;
-  LocationPermission permission;
-
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    return Future.error('Location services are disabled.');
-  }
-
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.deniedForever) {
-    return Future.error(
-        'Location permissions are permantly denied, we cannot request permissions.');
-  }
-
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission != LocationPermission.whileInUse &&
-        permission != LocationPermission.always) {
-      return Future.error(
-          'Location permissions are denied (actual value: $permission).');
-    }
   }
 }

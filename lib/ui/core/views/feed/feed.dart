@@ -36,15 +36,20 @@ class FeedView extends StatelessWidget {
                     ? Center(
                         child: Text("No Pending Requests"),
                       )
-                    : Container(
-                        margin: EdgeInsets.only(top: 8),
-                        child: ListView.builder(
-                          itemCount: model.requests.length,
-                          itemBuilder: (context, index) {
-                            return CardView(model: model, index: index);
-                          },
+                    : RefreshIndicator(
+                        onRefresh: () async {
+                          return await model.init();
+                        },
+                      child: Container(
+                          //margin: EdgeInsets.only(top: 8),
+                          child: ListView.builder(
+                            itemCount: model.requests.length,
+                            itemBuilder: (context, index) {
+                              return CardView(model: model, index: index);
+                            },
+                          ),
                         ),
-                      ));
+                    ));
       },
     );
   }
@@ -65,7 +70,8 @@ class CardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => model.previewRequest(model.requests[index]),
-      child: Padding(
+      child: Container(
+        margin: index ==0 ? EdgeInsets.only(top: 8): EdgeInsets.all(0),
         padding: const EdgeInsets.all(12.0),
         child: Material(
           elevation: 8,
@@ -96,7 +102,7 @@ class CardView extends StatelessWidget {
                           ],
                         ),
                         Spacer(),
-                        model.requests[index].isShow == "true"?
+                        model.requests[index].isShow == "true" && int.parse(model.requests[index].offerNum) > 0?
                         Container(
                           margin: EdgeInsets.only(top: 24),
                           height: 22,

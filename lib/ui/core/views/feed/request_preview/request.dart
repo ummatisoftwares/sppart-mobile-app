@@ -20,6 +20,7 @@ class RequestPreview extends StatelessWidget {
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(title: Text("Request Details")),
+          backgroundColor: Colors.grey[100],
           body: Container(
             margin: EdgeInsets.all(10),
             child: model.isBusy
@@ -34,6 +35,40 @@ class RequestPreview extends StatelessWidget {
                 : SingleChildScrollView(
                     child: Column(
                       children: [
+                        SizedBox(height: 4),
+                        model.offers.length > 0
+                            ? Text("Available Offers", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),)
+                            : Container(),
+                        model.offers.length > 0 ? SizedBox(height: 8) : Container(),
+                        Column(
+                          children: model.offers
+                              .map((e) => Card(
+                                child: ListTile(
+                            onTap: () => model.addToCart(e),
+                            // leading: e.imageURL == null ? //Container()
+                            // Container(width: 1)
+                            // : Container(
+                            //   height: 50,
+                            //   width: 50,
+                            //   child: Image.network(e.imageURL)),
+                            dense: true,
+                            contentPadding: EdgeInsets.only(left: 16.0, right: 6.0),
+                            title: Text(e.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                            subtitle: Text(e.brand),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(e.price + " BHD", style: TextStyle(fontWeight: FontWeight.w600,)),
+                                Icon(Icons.navigate_next, color: Theme.of(context).primaryColor)
+                              ],
+                            ),
+                          ),
+                              )
+                          ).toList(),
+                        ),
+                        model.offers.length > 0 ? SizedBox(height: 10) : Container(),
+                        Text("Request Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor)),
+                        SizedBox(height: 8),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -220,9 +255,8 @@ class RequestPreview extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        model.selectedRequest.note == '' ? Container() : SizedBox(height: 5),
+                        model.selectedRequest.note == '' ? Container() :
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -249,9 +283,7 @@ class RequestPreview extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        model.selectedRequest.locationURL == null? Container() : SizedBox(height: 5),
                         model.selectedRequest.locationURL == null
                             ? Container()
                             : Card(
@@ -349,33 +381,7 @@ class RequestPreview extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                            )
-                            : Container(),
-                        model.offers.length > 0
-                            ? Text("Available offers (${model.offers.length})")
-                            : Container(),
-                        Column(
-                          children: model.offers
-                              .map((e) => ListTile(
-                                    onTap: () => model.addToCart(e),
-                                    leading: e.imageURL == null
-                                        ? Container(
-                                            height: 50,
-                                            width: 50,
-                                            child: Center(
-                                              child: Icon(Icons.image),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: 50,
-                                            width: 50,
-                                            child: Image.network(e.imageURL)),
-                                    title: Text(e.name),
-                                    subtitle: Text(e.brand),
-                                    trailing: Text(e.price + "BHD"),
-                                  ))
-                              .toList(),
-                        )
+                            ) : Container(),
                       ],
                     ),
                   ),

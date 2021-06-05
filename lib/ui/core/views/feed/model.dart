@@ -25,17 +25,17 @@ class FeedModel extends BaseViewModel {
   init() async {
     setBusy(true);
     await _notify.initialize();
-    User user = await _auth.getUser();
-    if (user != null) {
-      await getRequests(user.uid);
-    }
+    await getRequests();
     brnds = await _firestoreService.retrieveBrands();
     setBusy(false);
   }
 
-  getRequests(String userId) async {
-    requests = await _firestoreService.retrieveRequests(userId);
-    print(userId);
+  getRequests() async {
+    User user = await _auth.getUser();
+    if (user != null) {
+      requests = await _firestoreService.retrieveRequests(user.uid);
+      print(user.uid);
+    }
     notifyListeners();
   }
 
@@ -46,7 +46,7 @@ class FeedModel extends BaseViewModel {
   previewRequest(Request req) {
     _navigationService.navigateToView(
       RequestPreview(selectedRequestID: req.id),
-    );
+    ).then((value) => init());
   }
 
   Brand getBrand(String ID){

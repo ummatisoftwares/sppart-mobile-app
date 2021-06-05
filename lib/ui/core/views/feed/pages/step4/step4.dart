@@ -28,7 +28,8 @@ class Step4 extends StatelessWidget {
       this.selectedYear,
       this.selectedEngine,
       this.selectedCategory,
-      this.selectedItem})
+      this.selectedItem,
+      })
       : super(key: key);
 
   @override
@@ -274,14 +275,14 @@ class Step4 extends StatelessWidget {
                                     minLines: 5,
                                     maxLines: 6,
                                     decoration: InputDecoration(
-                                        hintText: "Descripe your item "),
+                                        hintText: "Describe your item "),
                                   ),
                                 ],
                               )),
                             ])
                         ),
                         Divider(),
-                        model.uploadedImage != null
+                        model.images != null
                             ? Column(
                               children: [
                                 ListView.builder(
@@ -383,7 +384,7 @@ class Step4 extends StatelessWidget {
           floatingActionButton: model.isBusy
               ? null
               : FloatingActionButton.extended(
-                  onPressed: () => model.submitRequest(),
+                  onPressed: () => model.submitRequest(context),
                   label: Text(
                       AppLocalizations.of(context).translate('addRequest')),
                   icon: Icon(Icons.done_all),

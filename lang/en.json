@@ -35,7 +35,11 @@
     "category":"Category",
     "confirmPassword":"Confirm Password",
     "phoneNumber":"Phone Number",
-    "selectItem":"Select Item"
-    
-
+    "selectItem":"Select Item",
+    "price":"Price",
+    "specification":"Specification",
+    "condition":"Condition",
+    "warranty":"Warranty",
+    "validTill": "Valid Until",
+    "image" : "Image"
 }
