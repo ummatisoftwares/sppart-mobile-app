@@ -15,6 +15,7 @@ class CartModel extends BaseViewModel {
   final fire = locator<FirestoreService>();
   final nav = locator<NavigationService>();
   User user;
+
   List<Offer> cart = List<Offer>();
 
   init() async {

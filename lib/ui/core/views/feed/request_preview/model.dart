@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/brand.dart';
@@ -8,6 +9,7 @@ import 'package:spraat/model/offer.dart';
 import 'package:spraat/model/request.dart';
 import 'package:spraat/model/type.dart';
 import 'package:spraat/model/year.dart';
+import 'package:spraat/services/app_localization.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
 import 'package:spraat/services/media_service.dart';
@@ -94,7 +96,6 @@ class RequestPreviewModel extends BaseViewModel {
   }
 
   addToCart(Offer offer) async {
-    print(offer.imageURL);
     nav.navigateToView(OfferDetailsPreBuy(offer: offer));
     // var user = await authService.getUser();
 
@@ -111,6 +112,19 @@ class RequestPreviewModel extends BaseViewModel {
     //     _firestoreService.addToCart(user.uid, offer);
     //   } else {}
     // }
+  }
+
+  deleteRequest(BuildContext context) async {
+    DialogResponse res = await dial.showConfirmationDialog(
+        description: AppLocalizations.of(context).translate('doYouWantToDeleteRequest') ?? "",
+        cancelTitle: AppLocalizations.of(context).translate('cancel') ?? "",
+        confirmationTitle: AppLocalizations.of(context).translate('yes') ?? "",
+        title: AppLocalizations.of(context).translate('deleteRequest') ?? "");
+
+    if (res.confirmed) {
+      await _firestoreService.deleteRequest(selectedRequest);
+      nav.back();
+    } else {}
   }
 
   String getImage(index){

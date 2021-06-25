@@ -9,7 +9,7 @@ class AppProvider extends ChangeNotifier {
   Locale locale = Locale('en', 'US');
   String unSelectedLangCode() {
     if (locale.languageCode == 'en') {
-      return 'uz';
+      return 'ar';
     } else {
       return 'en';
     }
@@ -23,8 +23,8 @@ class AppProvider extends ChangeNotifier {
   changeLanguage() async {
     final SharedPreferences prefs = await _prefs;
     if (lang == "English") {
-      lang = "Urdu";
-      locale = Locale('uz', 'BH');
+      lang = "العربية";
+      locale = Locale('ar', 'BH');
       prefs.setBool('isEnglish', false);
     } else {
       lang = "English";
@@ -48,7 +48,7 @@ class AppProvider extends ChangeNotifier {
           changeLanguage();
         }
       } else {
-        if (lang == "Urdu") {
+        if (lang == "العربية") {
           //nothing
         } else {
           changeLanguage();

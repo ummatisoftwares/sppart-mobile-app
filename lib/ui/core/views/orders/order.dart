@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spraat/app/locator.dart';
+import 'package:spraat/app/router.gr.dart';
 import 'package:spraat/model/offer.dart';
 
 import 'package:spraat/services/app_localization.dart';
@@ -15,15 +16,21 @@ class PurchasesModel extends BaseViewModel {
   final fireStore = locator<FirestoreService>();
   final auth = locator<AuthService>();
   final nav = locator<NavigationService>();
+  User user;
+
   List<Offer> myOffers = [];
 
   init() async {
     getOrders();
   }
 
+  login() {
+    nav.replaceWith(Routes.authView);
+  }
+
   getOrders() async {
     setBusy(true);
-    User user = await auth.getUser();
+    user = await auth.getUser();
     if (user != null) {
       myOffers = await fireStore.getMyPurchases(user.uid);
     }
@@ -58,9 +65,47 @@ class OrdersView extends StatelessWidget {
                       child: LinearProgressIndicator(),
                     )),
                   )
-                : model.myOffers.length == 0
+                : model.user == null
+                ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).translate('youAreNotLoggedIn'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () => model.login(),
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context).translate('login'),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            : model.myOffers.length == 0
                     ? Center(
-                        child: Text("No Orders"),
+                        child: Text(AppLocalizations.of(context).translate('noOrders')),
                       )
                     : Container(
                         margin: EdgeInsets.all(12),

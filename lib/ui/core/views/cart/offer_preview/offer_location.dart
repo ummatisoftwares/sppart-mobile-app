@@ -5,10 +5,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/offer.dart';
+import 'package:spraat/services/app_localization.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
 import 'package:spraat/services/maps.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 class OfferLocation extends StatefulWidget {
   final String number;
@@ -30,9 +32,10 @@ class _OfferLocationState extends State<OfferLocation> {
 
   @override
   Widget build(BuildContext context) {
+    var isDarkMode = getThemeManager(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Location"),
+        title: Text(AppLocalizations.of(context).translate("addLocation") ?? ""),
         centerTitle: true,
       ),
       body: Container(
@@ -50,7 +53,7 @@ class _OfferLocationState extends State<OfferLocation> {
                     children: [
                       Container(margin: EdgeInsets.fromLTRB(0, 28, 24, 28),height: 2, width: 100, color: Colors.blueGrey[200],),
                       //Divider(thickness: 2, indent: 60, endIndent: 60, height: 56,),
-                      Text("OR", style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
+                      Text(AppLocalizations.of(context).translate("or") ?? "", style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
                       Container(margin: EdgeInsets.fromLTRB(24, 28, 0, 28),height: 2, width: 100, color: Colors.blueGrey[200],),
                     ],
                   ),
@@ -64,12 +67,12 @@ class _OfferLocationState extends State<OfferLocation> {
                             controller: areaController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                                hintText: "Area",
+                                hintText: AppLocalizations.of(context).translate("area") ?? "",
                                 icon: Icon(Icons.location_on)),
                             // ignore: missing_return
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Name must not be empty";
+                                return AppLocalizations.of(context).translate("areaRequired") ?? "";
                               }
                             },
                           ),
@@ -79,12 +82,12 @@ class _OfferLocationState extends State<OfferLocation> {
                             keyboardType: TextInputType.text,
                             onChanged: (value) => location = " ",
                             decoration: InputDecoration(
-                                hintText: "Address Field",
+                                hintText: AppLocalizations.of(context).translate("addressField") ?? "",
                                 icon: Icon(Icons.location_city)),
                             // ignore: missing_return
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Address Field must not be empty";
+                                return AppLocalizations.of(context).translate("addressFieldRequired") ?? "";
                               }
                             },
                           ),
@@ -98,7 +101,7 @@ class _OfferLocationState extends State<OfferLocation> {
                 top: MediaQuery.of(context).size.height*0.268,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
+                          primary: isDarkMode? Colors.grey[900] : Colors.white,
                           onPrimary: Theme.of(context).primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
@@ -114,7 +117,7 @@ class _OfferLocationState extends State<OfferLocation> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 12.0),
-                    child: location == null ? Text("Add location", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18)) : Icon(Icons.done, color: Theme.of(context).primaryColor,),
+                    child: location == null ? Text(AppLocalizations.of(context).translate("addLocation") ?? "", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18)) : Icon(Icons.done, color: Theme.of(context).primaryColor,),
                   ),
                 ),
               ),
@@ -132,10 +135,10 @@ class _OfferLocationState extends State<OfferLocation> {
                   final auth = locator<AuthService>();
                   location = areaController.text +";"+ fieldController.text;
                   var res = await dial.showConfirmationDialog(
-                      cancelTitle: "Cancel",
-                      confirmationTitle: "Yes",
-                      title: "Purchase item?",
-                      description: "Would you like to purchase this item ?");
+                      cancelTitle: AppLocalizations.of(context).translate("cancel") ?? "",
+                      confirmationTitle: AppLocalizations.of(context).translate("yes") ?? "",
+                      title: AppLocalizations.of(context).translate("purchaseItem") ?? "" ,
+                      description: AppLocalizations.of(context).translate("wouldYouLikeToPurchaseItem") ?? "");
                   if (res.confirmed) {
                     User user = await auth.getUser();
                     firestore.buyItem(widget.number, widget.name, widget.offer, user.uid, location);
@@ -147,10 +150,10 @@ class _OfferLocationState extends State<OfferLocation> {
                   final auth = locator<AuthService>();
                   location = areaController.text + ";" + fieldController.text;
                   var res = await dial.showConfirmationDialog(
-                      cancelTitle: "Cancel",
-                      confirmationTitle: "Yes",
-                      title: "Purchase item?",
-                      description: "Would you like to purchase this item ?");
+                      cancelTitle: AppLocalizations.of(context).translate("cancel") ?? "",
+                      confirmationTitle: AppLocalizations.of(context).translate("yes") ?? "",
+                      title: AppLocalizations.of(context).translate("purchaseItem") ?? "" ,
+                      description: AppLocalizations.of(context).translate("wouldYouLikeToPurchaseItem") ?? "");
                   if (res.confirmed) {
                     User user = await auth.getUser();
                     firestore.buyItem(widget.number, widget.name, widget.offer, user.uid, location);
@@ -158,7 +161,7 @@ class _OfferLocationState extends State<OfferLocation> {
                 }
               },
               icon: Icon(Icons.shopping_cart),
-              label: Text("Buy"),
+              label: Text(AppLocalizations.of(context).translate("buy") ?? ""),
             ),
     );
   }

@@ -16,6 +16,7 @@ import 'package:spraat/model/item.dart';
 import 'package:spraat/model/request.dart';
 import 'package:spraat/model/type.dart';
 import 'package:spraat/model/year.dart';
+import 'package:spraat/services/app_localization.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
 import 'package:spraat/services/media_service.dart';
@@ -31,8 +32,10 @@ class Step4Model extends BaseViewModel {
   final snackbar = locator<SnackbarService>();
   TextEditingController phoneEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
+  TextEditingController chassisEditingController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  String uploadedImage;
+  final chassisKey = GlobalKey<FormState>();
+  String uploadedImage, chassisNum;
   Brand selectedBrand;
   CarType selectedtype;
   CarYear selectedYear;
@@ -73,12 +76,35 @@ class Step4Model extends BaseViewModel {
     setBusy(false);
   }
 
+  uploadCameraChassisImage() async {
+    setBusy(true);
+    var file = await mediaService.getImageCamera();
+    if (file is File) {
+      uploadedImage = await mediaService.uploadFile(file, path: "chassisNum/");
+      chassisNum = uploadedImage;
+    }
+    notifyListeners();
+    setBusy(false);
+  }
+
   uploadGalleryImage() async {
     setBusy(true);
     var file = await mediaService.getGalleryImage();
     if (file is File) {
       uploadedImage = await mediaService.uploadFile(file, path: "itemRequests/");
       images.add(uploadedImage);
+    }
+
+    notifyListeners();
+    setBusy(false);
+  }
+
+  uploadGalleryChassisImage() async {
+    setBusy(true);
+    var file = await mediaService.getGalleryImage();
+    if (file is File) {
+      uploadedImage = await mediaService.uploadFile(file, path: "chassisNum/");
+      chassisNum = uploadedImage;
     }
 
     notifyListeners();
@@ -139,13 +165,8 @@ class Step4Model extends BaseViewModel {
   submitRequest(BuildContext context) async {
     User user = await authService.getUser();
     if (user == null) {
-      snackbar.showSnackbar(message: "Kindly Signup/SignIn before Adding Request");
+      snackbar.showSnackbar(message: AppLocalizations.of(context).translate('kindlySignupbeforeAddingRequest') ?? "");
       await saveData();
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => AuthView(selectedItem: selectedItem),
-      //   ),
-      // );
       navService.navigateToView(AuthView(
           selectedBrand: selectedBrand,
           selectedType: selectedtype,
@@ -155,7 +176,8 @@ class Step4Model extends BaseViewModel {
           selectedItem: selectedItem,
       ));
     } else {
-      if (formKey.currentState.validate()) {
+      if (chassisKey.currentState.validate() && formKey.currentState.validate()) {
+        setBusy(true);
         User user = await authService.getUser();
         Request req = Request(
             time: Timestamp.now(),
@@ -176,12 +198,14 @@ class Step4Model extends BaseViewModel {
             locationURL: location != null
                 ? "https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}"
                 : null,
-            userId: user.uid);
+            userId: user.uid,
+            chassisNum: chassisNum == null? chassisEditingController.text : chassisNum
+        );
 
-        print(req.locationURL);
         _firestoreService.addRequest(req);
         await removeDate();
         print("OK");
+        setBusy(false);
       } else {
         print("NOT OK");
       }

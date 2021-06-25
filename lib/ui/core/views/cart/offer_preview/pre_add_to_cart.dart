@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/app/router.gr.dart';
 import 'package:spraat/model/offer.dart';
+import 'package:spraat/services/app_localization.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,7 +24,7 @@ class OfferDetailsPreBuy extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Offer Details"),
+        title: Text(AppLocalizations.of(context).translate('offerDetails')),
       ),
       body: Container(
           margin: EdgeInsets.all(10),
@@ -48,10 +49,10 @@ class OfferDetailsPreBuy extends StatelessWidget {
                 message: "Please login to add this to your cart");
           } else {
             DialogResponse res = await dial.showConfirmationDialog(
-                description: "Do you want to add this item to your cart ?",
-                cancelTitle: "Cancel",
-                confirmationTitle: "Yes",
-                title: "Add to cart ?");
+                description: AppLocalizations.of(context).translate('doYouWantAddThisItemToCart') ?? "",
+                cancelTitle: AppLocalizations.of(context).translate('cancel') ?? "",
+                confirmationTitle: AppLocalizations.of(context).translate('yes') ?? "",
+                title: AppLocalizations.of(context).translate('addToCart') ?? "");
 
             if (res.confirmed) {
               await firestore.addToCart(user.uid, offer);
@@ -60,7 +61,7 @@ class OfferDetailsPreBuy extends StatelessWidget {
           }
         },
         icon: Icon(Icons.shopping_cart),
-        label: Text("Add to cart"),
+        label: Text(AppLocalizations.of(context).translate('addToCart') ?? ""),
       ),
     );
   }

@@ -225,63 +225,100 @@ class Step4 extends StatelessWidget {
                         SizedBox(
                           height: 5,
                         ),
-                        Form(
-                          key: model.formKey,
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
+                        Card(
+                          child: Column(
                             children: [
-                              Divider(),
-                              Text(
-                                AppLocalizations.of(context).translate('phoneNumber') ?? "",
-                                style: TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
-                              ),
-                              Card(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextFormField(
-                                    controller: model.phoneEditingController,
-                                    minLines: 1,
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Phone number is required';
-                                      } else if (value.length < 8) {
-                                        return "Phone number must include 8 characters";
-                                      }
-                                      return null;
-                                    },
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ], // Only numbers can be entered
-                                    decoration: InputDecoration(
-                                        hintText: "Ex. 39123456"),
+                              SizedBox(height: 8),
+                              Form(
+                                key: model.chassisKey,
+                                  child: Container(
+                                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                    child: TextFormField(
+                                      controller: model.chassisEditingController,
+                                      minLines: 1,
+                                      decoration: InputDecoration(
+                                          hintText: AppLocalizations.of(context).translate('chassisNumber') ?? "",
+                                          icon: Icon(Icons.airport_shuttle, color: Theme.of(context).primaryColor)),
+                                      validator: (value) {
+                                        if (value.isEmpty && model.chassisNum == null) {
+                                          return AppLocalizations.of(context).translate('chassisNumberRequired') ?? "";
+                                        } else if (value.length != 17 && model.chassisNum == null) {
+                                          return AppLocalizations.of(context).translate('chassisNumberMustBe') ?? "";
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                   ),
-                                ],
-                              )),
-                              Divider(),
-                              Text(
-                                AppLocalizations.of(context)
-                                        .translate('desciption') ??
-                                    "",
-                                style: TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                               ),
-                              Card(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  TextFormField(
-                                    controller: model.noteEditingController,
-                                    minLines: 5,
-                                    maxLines: 6,
-                                    decoration: InputDecoration(
-                                        hintText: "Describe your item "),
-                                  ),
+                                  Container(margin: EdgeInsets.fromLTRB(0, 14, 24, 14),height: 2, width: 100, color: Colors.blueGrey[200],),
+                                  Text(AppLocalizations.of(context).translate('or') ?? "", style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
+                                  Container(margin: EdgeInsets.fromLTRB(24, 14, 0, 14),height: 2, width: 100, color: Colors.blueGrey[200],),
                                 ],
-                              )),
-                            ])
+                              ),
+                              RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                child: Text(
+                                  AppLocalizations.of(context).translate('addBackSideImage') ?? "",
+                                  style:
+                                  TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () => showOptionsDialog(context, model, true),
+
+                              ),
+                              SizedBox(height: 8),
+                            ],
+                          ),
                         ),
-                        Divider(),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Card(
+                          child: Form(
+                            key: model.formKey,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                  child: TextFormField(
+                                      controller: model.noteEditingController,
+                                      minLines: 1,
+                                      maxLines: 5,
+                                      decoration: InputDecoration(
+                                          hintText: AppLocalizations.of(context).translate('describeYourItem'),
+                                          icon: Icon(Icons.description, color: Theme.of(context).primaryColor))
+                                  ),
+                                ),
+                                SizedBox(height: 12),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                  child: TextFormField(
+                                      controller: model.phoneEditingController,
+                                      minLines: 1,
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return AppLocalizations.of(context).translate("phoneNumberRequired") ?? "";
+                                        } else if (value.length != 8) {
+                                          return AppLocalizations.of(context).translate("phoneNumberMustBe") ?? "";
+                                        }
+                                        return null;
+                                      },
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ], // Only numbers can be entered
+                                      decoration: InputDecoration(
+                                          hintText: AppLocalizations.of(context).translate("phoneNumber") ?? "",
+                                          icon: Icon(Icons.phone, color: Theme.of(context).primaryColor))),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         model.images != null
                             ? Column(
                               children: [
@@ -329,11 +366,11 @@ class Step4 extends StatelessWidget {
                                     RaisedButton(
                                       color: Theme.of(context).accentColor,
                                       child: Text(
-                                        AppLocalizations.of(context).translate('attachImage') ?? "",
+                                        AppLocalizations.of(context).translate('uploadImage') ?? "",
                                         style:
                                         TextStyle(color: Colors.white),
                                       ),
-                                      onPressed: () => showOptionsDialog(context, model),
+                                      onPressed: () => showOptionsDialog(context, model, false),
                                     ),
                                   ],
                                 ),
@@ -344,35 +381,16 @@ class Step4 extends StatelessWidget {
                             RaisedButton(
                               color: Theme.of(context).accentColor,
                               child: Text(
-                                AppLocalizations.of(context).translate('attachImage') ?? "",
+                                AppLocalizations.of(context).translate('uploadImage') ?? "",
                                 style:
                                 TextStyle(color: Colors.white),
                               ),
-                              onPressed: () => showOptionsDialog(context, model),
+                              onPressed: () => showOptionsDialog(context, model, false),
 
                             ),
                           ],
                         ),
-                        // Row(
-                        //   mainAxisAlignment:
-                        //   MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     RaisedButton(
-                        //       color: Theme.of(context).accentColor,
-                        //       onPressed: () => model.determinePosition(),
-                        //       child: Text(
-                        //         "Add location",
-                        //         style: TextStyle(color: Colors.white),
-                        //       ),
-                        //     ),
-                        //     model.loadingLocation
-                        //         ? CircularProgressIndicator()
-                        //         : model.location == null
-                        //         ? Container()
-                        //         : Icon(Icons.done,
-                        //         size: 35, color: Colors.green),
-                        //   ],
-                        // ),
+
                         SizedBox(
                           height:
                           MediaQuery.of(context).size.height * 0.1,
@@ -395,12 +413,12 @@ class Step4 extends StatelessWidget {
   }
 }
 
-Future<void> showOptionsDialog(BuildContext context, Step4Model model) {
+Future<void> showOptionsDialog(BuildContext context, Step4Model model, bool isChassis) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Upload Image"),
+          title: Text(AppLocalizations.of(context).translate('uploadImage') ?? ""),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
@@ -409,12 +427,12 @@ Future<void> showOptionsDialog(BuildContext context, Step4Model model) {
                     children: [
                       Icon(CupertinoIcons.camera_fill, color: Theme.of(context).primaryColor),
                       SizedBox(width: 10),
-                      Text("Camera"),
+                      Text(AppLocalizations.of(context).translate('camera') ?? ""),
                     ],
                   ),
                   onTap: () {
                     Navigator.of(context, rootNavigator: true).pop();
-                    model.uploadCameraImage();
+                    isChassis? model.uploadCameraChassisImage() : model.uploadCameraImage();
                   },
                 ),
                 Padding(padding: EdgeInsets.all(10)),
@@ -423,12 +441,12 @@ Future<void> showOptionsDialog(BuildContext context, Step4Model model) {
                     children: [
                       Icon(CupertinoIcons.photo_fill_on_rectangle_fill, color: Theme.of(context).primaryColor),
                       SizedBox(width: 10),
-                      Text("Photo Library"),
+                      Text(AppLocalizations.of(context).translate('photoLibrary') ?? ""),
                     ],
                   ),
                   onTap: () {
                     Navigator.of(context, rootNavigator: true).pop();
-                    model.uploadGalleryImage();
+                    isChassis? model.uploadGalleryChassisImage() : model.uploadGalleryImage();
                   },
                 ),
               ],

@@ -34,7 +34,7 @@ class CartView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "You are not logged in",
+                              AppLocalizations.of(context).translate('youAreNotLoggedIn'),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -51,7 +51,7 @@ class CartView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Center(
                                   child: Text(
-                                    "LOGIN",
+                                    AppLocalizations.of(context).translate('login'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -66,7 +66,7 @@ class CartView extends StatelessWidget {
                     )
                   : model.cart.length == 0
                       ? Center(
-                          child: Text("Your Cart is empty"),
+                          child: Text(AppLocalizations.of(context).translate('yourCartEmpty')),
                         )
                       : Container(
                         margin: EdgeInsets.all(12),

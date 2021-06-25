@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:spraat/model/offer.dart';
+import 'package:spraat/services/app_localization.dart';
 import 'package:spraat/services/auth_service.dart';
 import 'package:spraat/services/firestore_service.dart';
 import 'package:spraat/services/maps.dart';
@@ -38,7 +39,7 @@ class _OfferDetailsState extends State<OfferDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Offer Details"),
+        title: Text(AppLocalizations.of(context).translate('offerDetails')),
       ),
       body: Container(
           margin: EdgeInsets.all(10),
@@ -47,7 +48,7 @@ class _OfferDetailsState extends State<OfferDetails> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               widget.preview ? Container() : SizedBox(height: 16),
-              widget.preview ? Container() : Text("Contact Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              widget.preview ? Container() : Text(AppLocalizations.of(context).translate('contactDetails') ?? "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
               widget.preview ? Container() : SizedBox(height: 8),
               widget.preview ? Container() :
               Card(
@@ -71,12 +72,12 @@ class _OfferDetailsState extends State<OfferDetails> {
                           ],
                           onChanged: (value) => name = value,
                           decoration: InputDecoration(
-                              hintText: "Name",
+                              hintText: AppLocalizations.of(context).translate("name") ?? "",
                               icon: Icon(Icons.perm_contact_cal, color: Theme.of(context).primaryColor,)),
                           // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
-                              return "Name must not be empty";
+                              return AppLocalizations.of(context).translate("nameRequired") ?? "";
                             }
                           },
                         ),
@@ -97,15 +98,15 @@ class _OfferDetailsState extends State<OfferDetails> {
                           ],
                           onChanged: (value) => number = value,
                           decoration: InputDecoration(
-                              hintText: "Phone number",
+                              hintText: AppLocalizations.of(context).translate("phoneNumber") ?? "",
                               icon: Icon(Icons.phone, color: Theme.of(context).primaryColor,)),
                           // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
-                              return "Phone number must not be empty";
+                              return AppLocalizations.of(context).translate("phoneNumberRequired") ?? "";
                             }
                             if (value.length != 8) {
-                              return "Phone number include 8 numbers";
+                              return AppLocalizations.of(context).translate("phoneNumberMustBe") ?? "";
                             }
                           },
                         ),
@@ -115,8 +116,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
-              widget.preview ? Container() : Text("Payment Method", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              widget.preview ? Container() : SizedBox(height: 16),
+              widget.preview ? Container() : Text(AppLocalizations.of(context).translate("paymentMethod") ?? "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
               widget.preview ? Container() : SizedBox(height: 8),
               widget.preview ? Container() : Card(
                     child: Column(
@@ -135,7 +136,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                                     color: Theme.of(context).accentColor,
                                   ),
                                   onPressed: () {}),
-                              Text("Cash on Delivery")
+                              Text(AppLocalizations.of(context).translate("cashOnDelivery") ?? "")
                             ],
                           ),
                           Row(
@@ -146,15 +147,15 @@ class _OfferDetailsState extends State<OfferDetails> {
                                     color: Colors.grey,
                                   ),
                                   onPressed: null),
-                              Text("Benefit (Coming Soon)", style: TextStyle(color: Colors.grey),)
+                              Text(AppLocalizations.of(context).translate("benefit") ?? "", style: TextStyle(color: Colors.grey),)
                             ],
                           ),
                           SizedBox(height: 12),
                         ],
                       ),
                   ),
-              SizedBox(height: 16),
-              Text("Offer", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
+              widget.preview ? SizedBox(height: 8) : SizedBox(height: 16),
+              Text(AppLocalizations.of(context).translate('offer'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),),
               SizedBox(height: 8),
               widget.offer.detailsView(context),
               SizedBox(height: 12),
@@ -167,7 +168,7 @@ class _OfferDetailsState extends State<OfferDetails> {
               {Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => OfferLocation(number: number ,name: name ,offer: widget.offer)));}
           },
           icon: Icon(Icons.done),
-          label: Text("Next"),
+          label: Text(AppLocalizations.of(context).translate("continue") ?? ""),
       ),
     );
   }

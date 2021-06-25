@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spraat/services/app.dart';
 import 'package:spraat/services/app_localization.dart';
+import 'package:spraat/ui/core/views/settings/policy.dart';
 
 import 'package:stacked/stacked.dart';
 
@@ -38,60 +39,41 @@ class SettingsView extends StatelessWidget {
                   openLangDialog(context, app);
                   //app.changeLanguage();
                 },
-                title: Text("Language"),
+                title: Text(AppLocalizations.of(context).translate('languages'),),
                 trailing: Container(
                   child: Text(app.lang),
                 ),
               ),
+              // ListTile(
+              //   title: Text(
+              //       AppLocalizations.of(context).translate('darkMode') ??
+              //           ""),
+              //   trailing: Switch(
+              //       activeColor: Theme
+              //           .of(context)
+              //           .primaryColor,
+              //       value: model.isDarkMode,
+              //       onChanged: (value) => model.switchThemes(context)),
+              // ),
               ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('darkMode') ??
-                        ""),
-                trailing: Switch(
-                    activeColor: Theme
-                        .of(context)
-                        .primaryColor,
-                    value: model.isDarkMode,
-                    onChanged: (value) => model.switchThemes(context)),
+                title: Text(AppLocalizations.of(context).translate('rateApp') ??""),
+                trailing: Icon(Icons.star_rate),
+                onTap: () => model.rateApp(),
               ),
               ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('rateApp') ??
-                        ""),
-                trailing: IconButton(
-                    icon: Icon(Icons.star_rate),
-                    onPressed: () => model.rateApp()),
+                title: Text(AppLocalizations.of(context).translate('privacyPolicy') ?? ""),
+                trailing: Icon(Icons.admin_panel_settings),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicy())),
               ),
               ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('privacyPolicy') ??
-                        ""),
-                trailing: IconButton(
-                    icon: Icon(Icons.admin_panel_settings),
-                    onPressed: () =>
-                        Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text("Privacy Policy")))),
+                title: Text(AppLocalizations.of(context).translate('feedback') ?? ""),
+                trailing: Icon(Icons.feedback),
+                onTap: () => Scaffold.of(context).showSnackBar(SnackBar(content: Text("Feedback"))),
               ),
               ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('feedback') ??
-                        ""),
-                trailing: IconButton(
-                    icon: Icon(Icons.feedback),
-                    onPressed: () =>
-                        Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text("Feedback")))),
-              ),
-              ListTile(
-                title: Text(model.user == null
-                    ? AppLocalizations.of(context).translate('login')
-                    : AppLocalizations.of(context).translate('logout')),
-                trailing: IconButton(
-                    icon: Icon(Icons.exit_to_app),
-                    onPressed: () =>
-                    model.user == null
-                        ? model.login()
-                        : model.logout()),
+                title: Text(model.user == null? AppLocalizations.of(context).translate('login') : AppLocalizations.of(context).translate('logout')),
+                trailing: Icon(Icons.exit_to_app),
+                onTap: () =>model.user == null? model.login() : model.logout(),
               ),
             ],
           ),
@@ -103,7 +85,7 @@ class SettingsView extends StatelessWidget {
 
   openLangDialog(BuildContext context, AppProvider app) {
 
-    List<String> languages = ['English', 'Urdu'];
+    List<String> languages = ['English', 'العربية'];
 
     showDialog(
         context: context,

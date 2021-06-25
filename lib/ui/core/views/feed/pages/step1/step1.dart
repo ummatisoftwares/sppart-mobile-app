@@ -41,7 +41,7 @@ class Step1 extends StatelessWidget {
                           child: DropdownButtonFormField(
                         value: model.selectedtype,
                         iconSize: 30,
-                        hint: Text("Type"),
+                        hint: Text(AppLocalizations.of(context).translate('type') ?? ""),
                         onChanged: (type) => model.changeType(type),
                         items: model.carTypes
                             .map((e) => DropdownMenuItem(
@@ -74,7 +74,7 @@ class Step1 extends StatelessWidget {
                           child: DropdownButtonFormField(
                         value: model.selectedYear,
                         iconSize: 30,
-                        hint: Text("select"),
+                        hint: Text(AppLocalizations.of(context).translate('select') ?? ""),
                         onChanged: (year) => model.changeYears(year),
                         items: model.carYears
                             .map((e) => DropdownMenuItem(
@@ -107,7 +107,7 @@ class Step1 extends StatelessWidget {
                           child: DropdownButtonFormField(
                         value: model.selectedEngine,
                         iconSize: 30,
-                        hint: Text("select"),
+                        hint: Text(AppLocalizations.of(context).translate('select') ?? ""),
                         onChanged: (year) => model.changeEngine(year),
                         items: model.carEngines
                             .map((e) => DropdownMenuItem(

@@ -88,7 +88,8 @@ class MyApp extends StatelessWidget {
               },
               supportedLocales: [
                 const Locale('en', 'US'), // English
-                const Locale('uz', 'BH'), // Hebrew
+                const Locale('uz', 'BH'), // Urdu
+                const Locale('ar', 'BH'), // Arabic
               ],
               title: 'Sppart',
               debugShowCheckedModeBanner: false,

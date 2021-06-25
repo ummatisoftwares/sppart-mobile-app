@@ -22,6 +22,7 @@ class Request {
   final String itemName;
   final String offerNum;
   final String isShow;
+  final String chassisNum;
 
   const Request(
       {this.locationURL,
@@ -43,6 +44,7 @@ class Request {
       this.imageURL,
       this.offerNum,
       this.isShow,
+      this.chassisNum,
       @required this.category});
 
   Map<String, dynamic> toDocument() {
@@ -66,6 +68,7 @@ class Request {
       'itemName': itemName,
       'offerNum': offerNum,
       'isShow': isShow,
+      'chassisNum': chassisNum,
     };
   }
 
@@ -90,6 +93,7 @@ class Request {
         itemName: doc.data()['itemName'] ?? "Unnamed",
         offerNum: doc.data()['offerNum'] ?? "0",
         isShow: doc.data()['isShow'] ?? "",
+        chassisNum: doc.data()['chassisNum'] ?? "",
         phoneNumber: doc.data()['phoneNumber']);
   }
 }

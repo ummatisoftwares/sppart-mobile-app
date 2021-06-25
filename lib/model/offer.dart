@@ -16,6 +16,7 @@ class Offer {
       price,
       userId,
       phone;
+  Timestamp createdAt;
 
   List<dynamic> extra = List<dynamic>();
 
@@ -32,7 +33,8 @@ class Offer {
       this.extra,
       this.phone,
       this.userId,
-      this.price});
+      this.price,
+      this.createdAt});
 
   Map<String, dynamic> toDocument() {
     return {
@@ -47,8 +49,8 @@ class Offer {
       'requestID': requestID,
       'phone': phone,
       'userId': userId,
-      'extra':
-          extra.map((e) => Field(e["field"], e["value"]).toDocument()).toList()
+      'extra': extra.map((e) => Field(e["field"], e["value"]).toDocument()).toList(),
+      'createdAt': Timestamp.now()
     };
   }
 
@@ -66,11 +68,12 @@ class Offer {
         imageURL: doc.data()['imageURL'],
         phone: doc.data()['phone'] ?? "",
         userId: doc.data()['userId'] ?? "",
-        extra: doc.data()['extra'] ?? []);
+        extra: doc.data()['extra'] ?? [],
+        createdAt: doc.data()['createdAt'] ?? Timestamp.now()
+    );
   }
 
   Widget detailsView(BuildContext context) {
-    print(toDocument());
     return Column(
       children: [
         this.name == null ? Container() :
@@ -475,32 +478,66 @@ class Offer {
           ),
         ),
         this.imageURL == '' || this.imageURL == null ? Container() : SizedBox(height: 5),
-        Column(
-            children: this.extra.map((e) {
-          return Column(
-            children: [
-              Row(
+    //     Column(
+    //         children: this.extra.map((e) {
+    //       return Column(
+    //         children: [
+    //           Row(
+    //             children: [
+    //               Container(
+    //                 width: MediaQuery.of(context).size.width * 0.4,
+    //                 child: Text(
+    //                   e['field'],
+    //                   style:
+    //                       TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
+    //                 ),
+    //               ),
+    //               Container(
+    //                 width: MediaQuery.of(context).size.width * 0.5,
+    //                 child: Text(
+    //                   e['value'] ?? "",
+    //                   style:
+    //                       TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           Divider(),
+    //         ],
+    //       );
+    //     }).toList())
+    //   ],
+    // );
+    Column(
+        children: this.extra.map((e) {
+          return Card(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Text(
-                      e['field'],
-                      style:
+                  Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          e['field'],
+                          style:
                           TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
-                      e['value'] ?? "",
-                      style:
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Text(
+                          e['value'] ?? "",
+                          style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Divider(),
-            ],
+            ),
           );
         }).toList())
       ],

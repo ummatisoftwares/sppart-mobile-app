@@ -34,10 +34,8 @@ class FirestoreService {
       FirebaseFirestore.instance.collection('Engines');
   final CollectionReference purchasesCollectionReference =
       FirebaseFirestore.instance.collection('Purchases');
-
   final CollectionReference userCollectionReference =
       FirebaseFirestore.instance.collection('Users');
-
   final CollectionReference partCategoriesCollectionReference =
       FirebaseFirestore.instance.collection('Part_Categories');
   final CollectionReference itemsCollectionReference =
@@ -45,7 +43,9 @@ class FirestoreService {
 
   Future<List<Offer>> getMyPurchases(String userId) async {
     var doc = await purchasesCollectionReference
-        .where("userId", isEqualTo: userId).get();
+        .where('userId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .get();
     return doc.docs.map((e) => Offer.fromSnapshot(e)).toList();
   }
 
@@ -108,6 +108,16 @@ class FirestoreService {
     var docs = await requestsCollectionReference.get();
 
     return docs.docs.map((e) => Request.fromSnapshot(e)).toList();
+  }
+
+  Future deleteRequest(Request request) async {
+    await requestsCollectionReference
+        .doc(request.id)
+        .delete()
+        .catchError((onError) {
+      snackbarService.showSnackbar(
+          message: onError.code, duration: Duration(seconds: 3));
+    });
   }
 
   Future<List<CarType>> retrieveCarTypes(String brandId) async {
@@ -381,6 +391,7 @@ class FirestoreService {
     var docs = await userCollectionReference
         .doc(userID)
         .collection('Cart')
+        .orderBy('createdAt', descending: true)
         .get();
 
     return docs.docs.map((e) => Offer.fromSnapshot(e)).toList();

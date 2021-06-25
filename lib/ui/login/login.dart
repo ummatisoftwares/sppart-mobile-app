@@ -90,7 +90,7 @@ class LoginView extends StatelessWidget {
                   ),
                   //SizedBox(height: MediaQuery.of(context).size.height*0.100),
                   Text(
-                    "Sign In",
+                    AppLocalizations.of(context).translate('signIn'),
                     //AppLocalizations.of(context).translate('register'),
                     style: TextStyle(
                         fontSize: 18,
@@ -128,31 +128,31 @@ class LoginView extends StatelessWidget {
                               obscureText: true,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration.collapsed(
-                                  hintText: "Password", hintStyle: TextStyle(color: Colors.blueGrey))
+                                  hintText: AppLocalizations.of(context).translate('password') ?? "", hintStyle: TextStyle(color: Colors.blueGrey))
                           )
                       )
                   ),
                   SizedBox(height: 20),
-                  SpraatSignInButton(onPressed: (){model.login();  model.signIn(context);} ,text: "Sign In", borderRadius: 18, padding: 60,),
+                  SpraatSignInButton(onPressed: (){model.login();  model.signIn(context);} ,text: AppLocalizations.of(context).translate('signIn'), borderRadius: 18, padding: 60,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(margin: EdgeInsets.fromLTRB(0, 28, 24, 28),height: 2, width: 100, color: Colors.blueGrey[200],),
                       //Divider(thickness: 2, indent: 60, endIndent: 60, height: 56,),
-                      Text("OR", style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
+                      Text(AppLocalizations.of(context).translate('or'), style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
                       Container(margin: EdgeInsets.fromLTRB(24, 28, 0, 28),height: 2, width: 100, color: Colors.blueGrey[200],),
                     ],
                   ),
-                  GoogleSignInButton(onPressed: (){GoogleProvider.login(); model.signIn(context);},text: "Sign In with Google", borderRadius: 18,),
+                  GoogleSignInButton(onPressed: (){GoogleProvider.login(); model.signIn(context);},text: AppLocalizations.of(context).translate('signUpWithGoogle'), borderRadius: 18,),
                   SizedBox(height: 12),
-                  FacebookSignInButton(onPressed:(){FacebookProvider.loginFacebook();  model.signIn(context);}, text: "Sign In with Facebook", borderRadius: 18,),
+                  FacebookSignInButton(onPressed:(){FacebookProvider.loginFacebook();  model.signIn(context);}, text: AppLocalizations.of(context).translate('signUpWithFacebook'), borderRadius: 18,),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text("Don't have an Account? "),
-                      GestureDetector(onTap: (){model.moveBack();} ,child: Text("Sign Up", style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
+                      Text(AppLocalizations.of(context).translate('dontHaveAnAccount') + " "),
+                      GestureDetector(onTap: (){model.moveBack();} ,child: Text(AppLocalizations.of(context).translate('signUp'), style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height*0.08),

@@ -86,15 +86,15 @@ class AuthView extends StatelessWidget {
                             .height * 0.100),
                         //isIOS ? AppleSignInButton(onPressed: () {}, style: AppleButtonStyle.black, text: "Sign up with Apple", borderRadius: 18,): Container(),
                         //isIOS ? SizedBox(height: 12) : SizedBox(),
-                        Text("Sign up for best spare parts deals",
+                        Text(AppLocalizations.of(context).translate('signUpForBestSparePartDeals'),
                             style: TextStyle(fontSize: 20,
                                 color: Colors.blueGrey,
                                 fontWeight: FontWeight.w500)),
                         SizedBox(height: 32),
-                        GoogleSignInButton(onPressed: () {GoogleProvider.login(); model.signIn(context);}, text: "Sign up with Google", borderRadius: 18,),
+                        GoogleSignInButton(onPressed: () {GoogleProvider.login(); model.signIn(context);}, text: AppLocalizations.of(context).translate('signUpWithGoogle'), borderRadius: 18,),
                         SizedBox(height: 12),
                         FacebookSignInButton(onPressed: () {FacebookProvider.loginFacebook(); model.signIn(context);},
-                          text: "Sign up with Facebook",
+                          text: AppLocalizations.of(context).translate('signUpWithFacebook'),
                           borderRadius: 18,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class AuthView extends StatelessWidget {
                               width: 100,
                               color: Colors.blueGrey[200],),
                             //Divider(thickness: 2, indent: 60, endIndent: 60, height: 56,),
-                            Text("OR", style: TextStyle(fontSize: 18,
+                            Text(AppLocalizations.of(context).translate('or'), style: TextStyle(fontSize: 18,
                                 color: Colors.blueGrey,
                                 fontWeight: FontWeight.w500)),
                             Container(
@@ -117,18 +117,18 @@ class AuthView extends StatelessWidget {
                         ),
                         SpraatSignInButton(onPressed: () {
                           model.moveToRegister();
-                        }, text: "Sign Up with Email", borderRadius: 18),
+                        }, text: AppLocalizations.of(context).translate('signUpWithEmail'), borderRadius: 18),
 
                         Spacer(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text("Already have an account? "),
+                            Text(AppLocalizations.of(context).translate('alreadyHaveAnAccount') + " "),
                             GestureDetector(onTap: () {
                               model.moveToLogin();
                             },
-                                child: Text("Sign In", style: TextStyle(
+                                child: Text(AppLocalizations.of(context).translate('signIn'), style: TextStyle(
                                     color: Color(0xFF226B95),
                                     fontWeight: FontWeight.w500)))
                           ],

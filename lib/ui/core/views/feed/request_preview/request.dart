@@ -19,8 +19,13 @@ class RequestPreview extends StatelessWidget {
       viewModelBuilder: () => RequestPreviewModel(),
       builder: (context, model, child) {
         return Scaffold(
-          appBar: AppBar(title: Text("Request Details")),
-          backgroundColor: Colors.grey[100],
+          appBar: AppBar(
+              title: Text(AppLocalizations.of(context).translate('requestDetails') ?? ""),
+            actions: [
+              IconButton(icon: Icon(Icons.delete), onPressed:()=> model.deleteRequest(context))
+            ],
+          ),
+
           body: Container(
             margin: EdgeInsets.all(10),
             child: model.isBusy
@@ -37,7 +42,7 @@ class RequestPreview extends StatelessWidget {
                       children: [
                         SizedBox(height: 4),
                         model.offers.length > 0
-                            ? Text("Available Offers", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),)
+                            ? Text(AppLocalizations.of(context).translate('availableOffers') ?? "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor),)
                             : Container(),
                         model.offers.length > 0 ? SizedBox(height: 8) : Container(),
                         Column(
@@ -45,12 +50,6 @@ class RequestPreview extends StatelessWidget {
                               .map((e) => Card(
                                 child: ListTile(
                             onTap: () => model.addToCart(e),
-                            // leading: e.imageURL == null ? //Container()
-                            // Container(width: 1)
-                            // : Container(
-                            //   height: 50,
-                            //   width: 50,
-                            //   child: Image.network(e.imageURL)),
                             dense: true,
                             contentPadding: EdgeInsets.only(left: 16.0, right: 6.0),
                             title: Text(e.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
@@ -67,7 +66,7 @@ class RequestPreview extends StatelessWidget {
                           ).toList(),
                         ),
                         model.offers.length > 0 ? SizedBox(height: 10) : Container(),
-                        Text("Request Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor)),
+                        Text(AppLocalizations.of(context).translate('requestDetails') ?? "", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColor)),
                         SizedBox(height: 8),
                         Card(
                           child: Container(
@@ -224,6 +223,34 @@ class RequestPreview extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            height: 5
+                        ),
+                        Card(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            width: double.infinity,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width:
+                                  MediaQuery.of(context).size.width * 0.4,
+                                  child: Text(
+                                    AppLocalizations.of(context).translate('chassisNumber') ?? "",
+                                    style: TextStyle(
+                                        fontSize: 18,color: Colors.grey[400], fontWeight: FontWeight.w600 ),
+                                  ),
+                                ),
+                                model.selectedRequest.chassisNum.length == 17 ? Text(model.selectedRequest.chassisNum, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)) :
+                                GestureDetector(
+                                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ImageView(url: model.selectedRequest.chassisNum))),
+                                    child: Icon(Icons.image, color: Theme.of(context).primaryColor,)
+                                ),
                               ],
                             ),
                           ),

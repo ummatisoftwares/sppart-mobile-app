@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spraat/model/offer.dart';
 import 'package:spraat/services/app_localization.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'model.dart';
 import 'package:stacked/stacked.dart';
 
@@ -34,7 +35,7 @@ class FeedView extends StatelessWidget {
                   )
                 : model.requests.length == 0
                     ? Center(
-                        child: Text("No Pending Requests"),
+                        child: Text(AppLocalizations.of(context).translate('noPendingRequest') ?? ""),
                       )
                     : RefreshIndicator(
                         onRefresh: () async {
@@ -68,13 +69,15 @@ class CardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isDarkMode = getThemeManager(context).isDarkMode;
     return GestureDetector(
       onTap: () => model.previewRequest(model.requests[index]),
       child: Container(
         margin: index ==0 ? EdgeInsets.only(top: 8): EdgeInsets.all(0),
         padding: const EdgeInsets.all(12.0),
         child: Material(
-          elevation: 8,
+          elevation: isDarkMode? 0 : 8,
+          color: isDarkMode? Colors.grey[800] : null,
           borderRadius: BorderRadius.all(Radius.circular(10)),
           child: ClipPath(
             clipper: ShapeBorderClipper(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
@@ -96,9 +99,9 @@ class CardView extends StatelessWidget {
                           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(children:[ Icon(Icons.settings, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].itemName, style: TextStyle(color: Colors.black87))]),
-                            Row(children:[ Icon(Icons.time_to_leave, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carName, style: TextStyle(color: Colors.black87))]),
-                            Row(children:[ Icon(Icons.av_timer, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carModel, style: TextStyle(color: Colors.black87))]),
+                            Row(children:[ Icon(Icons.settings, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].itemName)]),
+                            Row(children:[ Icon(Icons.time_to_leave, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carName)]),
+                            Row(children:[ Icon(Icons.av_timer, color: Theme.of(context).primaryColor), SizedBox(width: 8), Text(model.requests[index].carModel)]),
                           ],
                         ),
                         Spacer(),
@@ -125,8 +128,8 @@ class CardView extends StatelessWidget {
                         children:[
                           Row(children: [
                             Icon(Icons.settings_backup_restore, color: Theme.of(context).primaryColor),
-                            Text(model.requests[index].time.toDate().toString().substring(0, 10), style: TextStyle(color: Colors.black87)),],),
-                          Text(model.requests[index].status, style: TextStyle(color: getColor(model.requests[index].status), fontSize: 15, fontWeight: FontWeight.w500))
+                            Text(model.requests[index].time.toDate().toString().substring(0, 10)),],),
+                            Text(getText(context, model.requests[index].status ?? 'Processing'), style: TextStyle(color: getColor(model.requests[index].status), fontSize: 15, fontWeight: FontWeight.w500))
                         ]
                       ),
                     ),
@@ -151,4 +154,17 @@ Color getColor(String status){
     //return Colors.green;
   if(status == "Canceled")
     return Colors.red;
+}
+
+String getText(BuildContext context, String status){
+  if(status == "Processing")
+    return AppLocalizations.of(context).translate('processing');
+  if(status == "Available")
+    return AppLocalizations.of(context).translate('available');
+  //return Color.fromRGBO(0, 81, 113, 1.0);
+  if(status == "Completed")
+    return AppLocalizations.of(context).translate('completed');
+  //return Colors.green;
+  if(status == "Canceled")
+    return AppLocalizations.of(context).translate('canceled');
 }

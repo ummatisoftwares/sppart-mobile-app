@@ -87,7 +87,7 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   //SizedBox(height: MediaQuery.of(context).size.height*0.100),
                   Text(
-                      "Sign Up",
+                    AppLocalizations.of(context).translate('signUp'),
                       //AppLocalizations.of(context).translate('register'),
                       style: TextStyle(
                           fontSize: 18,
@@ -126,7 +126,7 @@ class _RegisterViewState extends State<RegisterView> {
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                 suffixIcon: GestureDetector(onTap:()=> setState(() {_obscureText = !_obscureText;}),child: Icon(Icons.remove_red_eye,color: Colors.blueGrey[400])),
-                                  hintText: "Password", hintStyle: TextStyle(color: Colors.blueGrey),
+                                  hintText: AppLocalizations.of(context).translate('password') ?? "", hintStyle: TextStyle(color: Colors.blueGrey),
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(left: 42, bottom: 8, top: 8)
                               )
@@ -147,19 +147,19 @@ class _RegisterViewState extends State<RegisterView> {
                           });
                         },
                       ),
-                      Text('Agree to ',),
-                      GestureDetector(onTap: (){} ,child: Text("Terms & Conditions", style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
+                      Text(AppLocalizations.of(context).translate('agreeTo') + " ",),
+                      GestureDetector(onTap: (){} ,child: Text(AppLocalizations.of(context).translate('terms&Conditions'), style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
                     ],
                   ),
                   SizedBox(height: 6),
-                  agree? SpraatSignInButton(onPressed: (){model.register(); model.signIn(context);} ,text: "CREATE ACCOUNT", borderRadius: 18,) : SpraatSignInButton(onPressed: (){} ,text: "CREATE ACCOUNT", borderRadius: 18, buttonColor: Color(0xFF226B95).withOpacity(0.6)),
+                  agree? SpraatSignInButton(onPressed: (){model.register(); model.signIn(context);} ,text: AppLocalizations.of(context).translate('createAccount'), borderRadius: 18,) : SpraatSignInButton(onPressed: (){} ,text: AppLocalizations.of(context).translate('createAccount'), borderRadius: 18, buttonColor: Color(0xFF226B95).withOpacity(0.6)),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text("Already have an account? "),
-                      GestureDetector(onTap: (){model.moveToLogin();} ,child: Text("Sign In", style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
+                      Text(AppLocalizations.of(context).translate('alreadyHaveAnAccount') + " "),
+                      GestureDetector(onTap: (){model.moveToLogin();} ,child: Text(AppLocalizations.of(context).translate('signIn'), style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height*0.08),

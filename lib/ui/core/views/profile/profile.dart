@@ -167,8 +167,8 @@ class ProfileView extends StatelessWidget {
                                                               horizontal: 10),
                                                       child: Text(
                                                         model.passwordUpdateEndabled
-                                                            ? "UPDATE"
-                                                            : "Change",
+                                                            ? AppLocalizations.of(context).translate('update')
+                                                            : AppLocalizations.of(context).translate('change'),
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
@@ -201,7 +201,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "You are not logged in",
+                              AppLocalizations.of(context).translate('youAreNotLoggedIn'),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -218,7 +218,7 @@ class ProfileView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Center(
                                   child: Text(
-                                    "LOGIN",
+                                    AppLocalizations.of(context).translate('login'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
