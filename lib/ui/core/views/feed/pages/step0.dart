@@ -88,8 +88,7 @@ class Step0 extends StatelessWidget {
                           itemCount: model.brnds.length,
                           separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
                           itemBuilder: (context, index) => ListTile(
-                              onLongPress: () =>
-                                  model.deleteBrand(model.brnds[index]),
+                              //onLongPress: () => model.deleteBrand(model.brnds[index]),
                               onTap: () =>
                                   model.showBrandTypes(model.brnds[index]),
                               leading: model.brnds[index].imageURL.isEmpty

@@ -294,8 +294,7 @@ class FirestoreService {
         request.engineSize != null
         //&& request.item != null
     ) {
-      await requestsCollectionReference
-          .add(request.toDocument())
+      await requestsCollectionReference.add(request.toDocument())
           .whenComplete(() {
         snackbarService.showSnackbar(
             message: "Request Sent!", duration: Duration(seconds: 3));

@@ -51,9 +51,8 @@ class Step2 extends StatelessWidget {
                               margin: EdgeInsets.symmetric(vertical: 10),
                               padding: EdgeInsets.all(10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
                                 children: [
+                                  SizedBox(width: 18),
                                   Text(
                                     model.partCategories[index].name,
                                     style: TextStyle(fontSize: 22),

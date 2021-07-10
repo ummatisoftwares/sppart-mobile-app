@@ -63,7 +63,12 @@ dev_dependencies:
   auto_route_generator: ^0.6.8
   injectable_generator: null
   build_runner:
+  flutter_launcher_icons: ^0.9.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/sppart_icon.png"
 
 flutter:
 

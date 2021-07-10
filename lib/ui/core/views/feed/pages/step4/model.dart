@@ -116,6 +116,11 @@ class Step4Model extends BaseViewModel {
     notifyListeners();
   }
 
+  deleteChassisImage() {
+    chassisNum = null;
+    notifyListeners();
+  }
+
   Future determinePosition() async {
     loadingLocation = true;
     notifyListeners();
@@ -176,7 +181,8 @@ class Step4Model extends BaseViewModel {
           selectedItem: selectedItem,
       ));
     } else {
-      if (chassisKey.currentState.validate() && formKey.currentState.validate()) {
+      //if (chassisKey.currentState.validate() && formKey.currentState.validate()) {
+      if (formKey.currentState.validate()) {
         setBusy(true);
         User user = await authService.getUser();
         Request req = Request(
@@ -195,9 +201,7 @@ class Step4Model extends BaseViewModel {
             itemName: selectedItem.name,
             offerNum: "0",
             isShow: "",
-            locationURL: location != null
-                ? "https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}"
-                : null,
+            //locationURL: location != null ? "https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}" : null,
             userId: user.uid,
             chassisNum: chassisNum == null? chassisEditingController.text : chassisNum
         );
@@ -208,6 +212,7 @@ class Step4Model extends BaseViewModel {
         setBusy(false);
       } else {
         print("NOT OK");
+        setBusy(false);
       }
     }
   }
@@ -217,6 +222,8 @@ class Step4Model extends BaseViewModel {
     prefs.setString('phone', phoneEditingController.text);
     prefs.setString('description', noteEditingController.text);
     prefs.setStringList('images',images);
+    prefs.setString('chassis', chassisEditingController.text);
+    prefs.setString('chassisNum', chassisNum);
   }
 
   getData() async {
@@ -224,6 +231,8 @@ class Step4Model extends BaseViewModel {
     phoneEditingController.text = prefs.getString('phone') ?? '';
     noteEditingController.text = prefs.getString('description') ?? '';
     images = prefs.getStringList('images') ?? [];
+    chassisEditingController.text = prefs.getString('chassis') ?? '';
+    chassisNum = prefs.getString('chassisNum') ?? null;
   }
 
   removeDate() async{
@@ -231,5 +240,7 @@ class Step4Model extends BaseViewModel {
     prefs.remove('phone');
     prefs.remove('description');
     prefs.remove('images');
+    prefs.remove('chassis');
+    prefs.remove('chassisNum');
   }
 }

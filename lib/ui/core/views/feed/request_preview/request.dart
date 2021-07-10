@@ -270,8 +270,7 @@ class RequestPreview extends StatelessWidget {
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: Text(
                                     AppLocalizations.of(context).translate('phoneNumber') ?? "",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
+                                    style: TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(model.selectedRequest.phoneNumber,
@@ -288,7 +287,7 @@ class RequestPreview extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.all(10),
                             width: double.infinity,
-                            child: Column(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
@@ -301,10 +300,8 @@ class RequestPreview extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  child: Text(model.selectedRequest.note,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600)),
+                                  width: MediaQuery.of(context).size.width * 0.475,
+                                  child: Text(model.selectedRequest.note, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                                 ),
                               ],
                             ),

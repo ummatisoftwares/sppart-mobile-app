@@ -1,4 +1,4 @@
-package omt.app.spraat
+package com.sppart.test
 
 import io.flutter.embedding.android.FlutterActivity
 

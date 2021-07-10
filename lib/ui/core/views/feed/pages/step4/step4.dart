@@ -85,9 +85,7 @@ class Step4 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -113,9 +111,7 @@ class Step4 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -141,9 +137,7 @@ class Step4 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -169,9 +163,7 @@ class Step4 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -180,8 +172,7 @@ class Step4 extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    width: MediaQuery.of(context).size.width * 0.4,
                                     child: Text(
                                       AppLocalizations.of(context)
                                               .translate('category') ??
@@ -189,17 +180,18 @@ class Step4 extends StatelessWidget {
                                       style: TextStyle(
                                           fontSize: 18,color: Colors.grey[400], fontWeight: FontWeight.w600),
                                     )),
-                                Text(selectedCategory.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600)),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.475,
+                                  child: Text(selectedCategory.name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600)),
+                                ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -214,85 +206,260 @@ class Step4 extends StatelessWidget {
                                       AppLocalizations.of(context).translate('item') ?? "",
                                       style: TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                     )),
-                                Text(selectedItem.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600)),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.475,
+                                  child: Text(selectedItem.name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600)),
+                                ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
+                        SizedBox(height: 5),
+                        SizedBox(height: 5),
+                        Card(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 4),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                child: TextFormField(
+                                    controller: model.noteEditingController,
+                                    minLines: 1,
+                                    maxLines: 5,
+                                    decoration: InputDecoration(
+                                        hintText: AppLocalizations.of(context).translate('describeYourItem'),
+                                        icon: Icon(Icons.description, color: Theme.of(context).primaryColor))
+                                ),
+                              ),
+                              SizedBox(height: 12),
+
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                child: model.images.isNotEmpty ? Column(
+                                  children: [
+                                    ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: model.images.length,
+                                      itemBuilder: (context, index) => Container(
+                                        margin:
+                                        EdgeInsets.symmetric(vertical: 6),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                                height: 80,
+                                                width: 142,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          model.images[index],
+                                                        ),
+                                                        fit: BoxFit.contain))),
+                                            InkWell(
+                                              onTap: () => model.deleteImage(index),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete,
+                                                    size: 30,
+                                                    color: Colors.red,
+                                                  ),
+                                                  Text(
+                                                      AppLocalizations.of(context).translate('delete') ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                ],),
+                                            )
+                                          ],),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        RaisedButton.icon(
+                                          color: Theme.of(context).accentColor,
+                                          icon: Icon(Icons.add_a_photo, color: Colors.white),
+                                          label: Text(
+                                            AppLocalizations.of(context).translate('uploadImage') ?? "",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onPressed: () => showOptionsDialog(context, model, false),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ) : Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                child: Text( AppLocalizations.of(context).translate('uploadItemImage') ?? "", style: TextStyle(color: Colors.blueGrey[400], fontSize: 12, fontWeight: FontWeight.w500))
+                                            ),
+                                            RaisedButton.icon(
+                                              color: Theme.of(context).accentColor,
+                                              icon: Icon(Icons.add_a_photo, color: Colors.white),
+                                              label: Text(
+                                                AppLocalizations.of(context).translate('uploadImage') ?? "",
+                                                style: TextStyle(color: Colors.white),
+                                              ),
+                                              onPressed: () => showOptionsDialog(context, model, false),
+                                            ),
+                                          ],
+                                        ),
+                                    // Expanded(
+                                    //   flex: 4,
+                                    //   child: Text( AppLocalizations.of(context).translate('uploadItemImage') ?? "", style: TextStyle(color: Colors.blueGrey, fontSize: 14, fontWeight: FontWeight.w500))
+                                    // ),
+                                    // Expanded(
+                                    //   flex: 1,
+                                    //   child:  RaisedButton(
+                                    //     color: Theme.of(context).accentColor,
+                                    //     child: Icon(Icons.add_a_photo, color: Colors.white),
+                                    //     onPressed: () => showOptionsDialog(context, model, false),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(height: 8),
+                            ],
+                          ),
                         ),
                         Card(
                           child: Column(
                             children: [
-                              SizedBox(height: 8),
-                              Form(
-                                key: model.chassisKey,
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                    child: TextFormField(
-                                      controller: model.chassisEditingController,
-                                      minLines: 1,
-                                      decoration: InputDecoration(
-                                          hintText: AppLocalizations.of(context).translate('chassisNumber') ?? "",
-                                          icon: Icon(Icons.airport_shuttle, color: Theme.of(context).primaryColor)),
-                                      validator: (value) {
-                                        if (value.isEmpty && model.chassisNum == null) {
-                                          return AppLocalizations.of(context).translate('chassisNumberRequired') ?? "";
-                                        } else if (value.length != 17 && model.chassisNum == null) {
-                                          return AppLocalizations.of(context).translate('chassisNumberMustBe') ?? "";
-                                        }
-                                        return null;
-                                      },
+                              SizedBox(height: 12),
+                              // Form(
+                              //   key: model.chassisKey,
+                              //     child: Container(
+                              //       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              //       child: TextFormField(
+                              //         controller: model.chassisEditingController,
+                              //         minLines: 1,
+                              //         decoration: InputDecoration(
+                              //             hintText: AppLocalizations.of(context).translate('chassisNumber') ?? "",
+                              //             icon: Icon(Icons.airport_shuttle, color: Theme.of(context).primaryColor)),
+                              //         validator: (value) {
+                              //           if (value.isEmpty && model.chassisNum == null) {
+                              //             return AppLocalizations.of(context).translate('chassisNumberRequired') ?? "";
+                              //           } else if (value.length != 17 && model.chassisNum == null) {
+                              //             return AppLocalizations.of(context).translate('chassisNumberMustBe') ?? "";
+                              //           }
+                              //           return null;
+                              //         },
+                              //       ),
+                              //     ),
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Container(margin: EdgeInsets.fromLTRB(12, 22, 24, 14),height: 1.5, width: 120, color: Colors.blueGrey[300],),
+                              //     Padding(padding: const EdgeInsets.fromLTRB(0, 8, 0, 0), child: Text(AppLocalizations.of(context).translate('or') ?? "", style: TextStyle(fontSize: 16 ,color: Colors.blueGrey[300])),),
+                              //     Container(margin: EdgeInsets.fromLTRB(24, 22, 12, 14),height: 1.5, width: 120, color: Colors.blueGrey[300],),
+                              //   ],
+                              // ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                child: model.chassisNum != null ?
+                                Container(
+                                          margin: EdgeInsets.symmetric(vertical: 6),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                  height: 80,
+                                                  width: 142,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.2),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(model.chassisNum,),
+                                                          fit: BoxFit.contain))),
+                                              InkWell(
+                                                onTap: () => model.deleteChassisImage(),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete,
+                                                      size: 30,
+                                                      color: Colors.red,
+                                                    ),
+                                                    Text(
+                                                        AppLocalizations.of(context).translate('delete') ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                  ],),
+                                              )
+                                            ],),
+                                        )
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.start,
+                                    //   children: [
+                                    //     RaisedButton.icon(
+                                    //       color: Theme.of(context).accentColor,
+                                    //       icon: Icon(Icons.add_a_photo, color: Colors.white),
+                                    //       label: Text(
+                                    //         AppLocalizations.of(context).translate('uploadImage') ?? "",
+                                    //         style: TextStyle(color: Colors.white),
+                                    //       ),
+                                    //       onPressed: () => showOptionsDialog(context, model, true),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                  : Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                        Container(
+                                            //width: MediaQuery.of(context).size.width*0.4,
+                                            child: Text( AppLocalizations.of(context).translate('addBackSideImage') ?? "", style: TextStyle(color: Colors.blueGrey[400], fontSize: 12, fontWeight: FontWeight.w500))
+                                        ),
+                                        RaisedButton.icon(
+                                          color: Theme.of(context).accentColor,
+                                          icon: Icon(Icons.add_a_photo, color: Colors.white),
+                                          label: Text(
+                                            AppLocalizations.of(context).translate('uploadImage') ?? "",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onPressed: () => showOptionsDialog(context, model, true),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(margin: EdgeInsets.fromLTRB(0, 14, 24, 14),height: 2, width: 100, color: Colors.blueGrey[200],),
-                                  Text(AppLocalizations.of(context).translate('or') ?? "", style: TextStyle( fontSize: 18 ,color: Colors.blueGrey, fontWeight: FontWeight.w500)),
-                                  Container(margin: EdgeInsets.fromLTRB(24, 14, 0, 14),height: 2, width: 100, color: Colors.blueGrey[200],),
-                                ],
-                              ),
-                              RaisedButton(
-                                color: Theme.of(context).accentColor,
-                                child: Text(
-                                  AppLocalizations.of(context).translate('addBackSideImage') ?? "",
-                                  style:
-                                  TextStyle(color: Colors.white),
+                                    //   Expanded(
+                                    //       flex: 4,
+                                    //       child: Text( AppLocalizations.of(context).translate('addBackSideImage') ?? "", style: TextStyle(color: Colors.blueGrey, fontSize: 14, fontWeight: FontWeight.w500))
+                                    //   ),
+                                    //   SizedBox(width: 12),
+                                    //   Expanded(
+                                    //     flex: 1,
+                                    //     child:  IconButton(
+                                    //       color: Theme.of(context).accentColor,
+                                    //       icon: Icon(Icons.add_a_photo, color: Theme.of(context).primaryColor),
+                                    //       iconSize: 28,
+                                    //       onPressed: () => showOptionsDialog(context, model, true),
+                                    //     ),
+                                    //   ),
+                                  ],
                                 ),
-                                onPressed: () => showOptionsDialog(context, model, true),
-
                               ),
                               SizedBox(height: 8),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Card(
                           child: Form(
                             key: model.formKey,
                             child: Column(
                               children: [
-                                SizedBox(height: 8),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                  child: TextFormField(
-                                      controller: model.noteEditingController,
-                                      minLines: 1,
-                                      maxLines: 5,
-                                      decoration: InputDecoration(
-                                          hintText: AppLocalizations.of(context).translate('describeYourItem'),
-                                          icon: Icon(Icons.description, color: Theme.of(context).primaryColor))
-                                  ),
-                                ),
-                                SizedBox(height: 12),
+                                SizedBox(height: 4),
                                 Container(
                                   padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                                   child: TextFormField(
@@ -313,88 +480,13 @@ class Step4 extends StatelessWidget {
                                           hintText: AppLocalizations.of(context).translate("phoneNumber") ?? "",
                                           icon: Icon(Icons.phone, color: Theme.of(context).primaryColor))),
                                 ),
-                                SizedBox(height: 20),
+                                SizedBox(height: 16),
                               ],
                             ),
                           ),
                         ),
 
-                        model.images != null
-                            ? Column(
-                              children: [
-                                ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: model.images.length,
-                                itemBuilder: (context, index) => Container(
-                                margin:
-                                EdgeInsets.symmetric(vertical: 6),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                        height: 80,
-                                        width: 160,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey
-                                                .withOpacity(0.2),
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                  model.images[index],
-                                                ),
-                                                fit: BoxFit.contain))),
-                                    InkWell(
-                                      onTap: () => model.deleteImage(index),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.delete,
-                                            size: 30,
-                                            color: Colors.red,
-                                          ),
-                                          Text(
-                                              AppLocalizations.of(context).translate('delete') ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],),
-                                      )
-                                     ],),
-                                   ),
-                                 ),
-                                Row(
-                                  //mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    RaisedButton(
-                                      color: Theme.of(context).accentColor,
-                                      child: Text(
-                                        AppLocalizations.of(context).translate('uploadImage') ?? "",
-                                        style:
-                                        TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () => showOptionsDialog(context, model, false),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                            : Row(
-                          children: [
-                            RaisedButton(
-                              color: Theme.of(context).accentColor,
-                              child: Text(
-                                AppLocalizations.of(context).translate('uploadImage') ?? "",
-                                style:
-                                TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () => showOptionsDialog(context, model, false),
-
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(
-                          height:
-                          MediaQuery.of(context).size.height * 0.1,
-                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
                       ],
                     ),
                   ),
@@ -404,7 +496,7 @@ class Step4 extends StatelessWidget {
               : FloatingActionButton.extended(
                   onPressed: () => model.submitRequest(context),
                   label: Text(
-                      AppLocalizations.of(context).translate('addRequest')),
+                      AppLocalizations.of(context).translate('submitRequest')),
                   icon: Icon(Icons.done_all),
                 ),
         );

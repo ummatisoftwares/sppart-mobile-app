@@ -14,7 +14,7 @@ class CarYear {
   factory CarYear.fromSnapshot(DocumentSnapshot doc) {
     return CarYear(
       id: doc.id,
-      name: doc.data()['name'] ?? '',
+      name: doc.data()['name'].toString() ?? '',
       type: doc.data()['type'] ?? '',
     );
   }
