@@ -219,10 +219,10 @@ class RequestPreview extends StatelessWidget {
                                         fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Text(model.selectedItem.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600)),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.470,
+                                  child: Text(model.selectedItem.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                ),
                               ],
                             ),
                           ),
@@ -300,7 +300,7 @@ class RequestPreview extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.475,
+                                  width: MediaQuery.of(context).size.width * 0.470,
                                   child: Text(model.selectedRequest.note, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                                 ),
                               ],

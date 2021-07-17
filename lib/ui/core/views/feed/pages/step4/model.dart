@@ -206,7 +206,7 @@ class Step4Model extends BaseViewModel {
             chassisNum: chassisNum == null? chassisEditingController.text : chassisNum
         );
 
-        _firestoreService.addRequest(req);
+        await _firestoreService.addRequest(req);
         await removeDate();
         print("OK");
         setBusy(false);

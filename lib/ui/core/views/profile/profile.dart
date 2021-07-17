@@ -30,169 +30,175 @@ class ProfileView extends StatelessWidget {
                   ? Scaffold(
                       body: Container(
                         margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: model.user?.photoURL != null
-                                  ? InkWell(
-                                      onTap: () => model.uploadProfileImage(),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    model.user.photoURL)),
-                                            shape: BoxShape.circle,
-                                            color:
-                                                Colors.grey.withOpacity(0.4)),
-                                        height: 200,
-                                        width: 200,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Center(
+                                child: model.user?.photoURL != null
+                                    ? InkWell(
+                                        onTap: () => model.canPasswordUpdate()? model.uploadProfileImage(): null,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      model.user.photoURL)),
+                                              shape: BoxShape.circle,
+                                              color:
+                                                  Colors.grey.withOpacity(0.4)),
+                                          height: 100,
+                                          width: 100,
+                                        ),
+                                      )
+                                    : InkWell(
+                                        onTap: () => model.canPasswordUpdate()? model.uploadProfileImage() : null,
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color:
+                                                  Colors.grey.withOpacity(0.4)),
+                                        ),
                                       ),
-                                    )
-                                  : InkWell(
-                                      onTap: () => model.uploadProfileImage(),
-                                      child: Container(
-                                        height: 200,
-                                        width: 200,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                Colors.grey.withOpacity(0.4)),
-                                      ),
-                                    ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            ListView(
-                              shrinkWrap: true,
-                              children: [
-                                Card(
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)
-                                              .translate('name'),
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                            height: 50,
-                                            color: Colors.white12,
-                                            child: Center(
-                                                child: TextFormField(
-                                              controller: model.nameController,
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)
-                                              .translate('email'),
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                            height: 50,
-                                            color: Colors.white12,
-                                            child: Center(
-                                                child: TextFormField(
-                                              enabled: false,
-                                              controller: model.emailController,
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)
-                                              .translate('password'),
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                            height: 50,
-                                            color: Colors.white12,
-                                            child: Center(
-                                                child: Row(
-                                              children: [
-                                                Expanded(
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Card(
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            AppLocalizations.of(context)
+                                                .translate('name'),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              color: Colors.white12,
+                                              child: Center(
                                                   child: TextFormField(
-                                                    obscureText: true,
-                                                    enabled: model
-                                                        .passwordUpdateEndabled,
-                                                    controller: model
-                                                        .passwordController,
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () => model
-                                                          .passwordUpdateEndabled
-                                                      ? model.updatePassword()
-                                                      : model
-                                                          .enablePasswordUpdate(),
-                                                  child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10),
-                                                      child: Text(
-                                                        model.passwordUpdateEndabled
-                                                            ? AppLocalizations.of(context).translate('update')
-                                                            : AppLocalizations.of(context).translate('change'),
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                )
-                                              ],
-                                            ))),
-                                      ],
+                                                    enabled: model.canPasswordUpdate()? true : false,
+                                                controller: model.nameController,
+                                              ))),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                  model.isLoggedInWithFacebook? Card(
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            AppLocalizations.of(context)
+                                                .translate('email'),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              color: Colors.white12,
+                                              child: Center(
+                                                  child: TextFormField(
+                                                enabled: false,
+                                                controller: model.emailController,
+                                              ))),
+                                        ],
+                                      ),
+                                    ),
+                                  ) : Container(),
+                                  model.canPasswordUpdate() ? Card(
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            AppLocalizations.of(context)
+                                                .translate('password'),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              color: Colors.white12,
+                                              child: Center(
+                                                  child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                      obscureText: true,
+                                                      enabled: model
+                                                          .passwordUpdateEndabled,
+                                                      controller: model
+                                                          .passwordController,
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () => model
+                                                            .passwordUpdateEndabled
+                                                        ? model.updatePassword()
+                                                        : model
+                                                            .enablePasswordUpdate(),
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                                horizontal: 10),
+                                                        child: Text(
+                                                          model.passwordUpdateEndabled
+                                                              ? AppLocalizations.of(context).translate('update')
+                                                              : AppLocalizations.of(context).translate('change'),
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                  )
+                                                ],
+                                              ))),
+                                        ],
+                                      ),
+                                    ),
+                                  ) : Container(),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      floatingActionButton: FloatingActionButton.extended(
+                      floatingActionButton: model.canPasswordUpdate()? FloatingActionButton.extended(
                         onPressed: () => model.updateProfile(),
                         label: Text(AppLocalizations.of(context)
                             .translate('updateProfile')),
                         icon: Icon(Icons.save),
-                      ),
+                      ) : null,
                     )
                   : Container(
                       padding: EdgeInsets.symmetric(horizontal: 30),

@@ -148,7 +148,7 @@ class _RegisterViewState extends State<RegisterView> {
                         },
                       ),
                       Text(AppLocalizations.of(context).translate('agreeTo') + " ",),
-                      GestureDetector(onTap: (){} ,child: Text(AppLocalizations.of(context).translate('terms&Conditions'), style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
+                      GestureDetector(onTap: (){ model.goToTerms();} ,child: Text(AppLocalizations.of(context).translate('terms&Conditions'), style: TextStyle(color: Color(0xFF226B95), fontWeight: FontWeight.w500)))
                     ],
                   ),
                   SizedBox(height: 6),

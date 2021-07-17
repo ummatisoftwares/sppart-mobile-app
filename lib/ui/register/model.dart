@@ -8,6 +8,7 @@ import 'package:spraat/model/item.dart';
 import 'package:spraat/model/type.dart';
 import 'package:spraat/model/year.dart';
 import 'package:spraat/services/auth_service.dart';
+import 'package:spraat/ui/core/views/settings/policy.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -81,5 +82,9 @@ class RegisterModel extends BaseViewModel {
         }
       }
     });
+  }
+
+  goToTerms(){
+    navigationService.navigateToView(PrivacyPolicy());
   }
 }

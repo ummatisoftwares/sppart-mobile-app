@@ -8,5 +8,7 @@ class SplashModel extends BaseViewModel {
   init() async {
     await Future.delayed(Duration(seconds: 2)).then(
         (value) => _navigationService.clearStackAndShow(Routes.coreView));
+
+
   }
 }

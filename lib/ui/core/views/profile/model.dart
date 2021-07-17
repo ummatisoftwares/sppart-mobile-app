@@ -18,6 +18,8 @@ class ProfileModel extends BaseViewModel {
   TextEditingController passwordController = TextEditingController();
   User user;
   bool passwordUpdateEndabled = false;
+  bool canChangePassword = false;
+  bool isLoggedInWithFacebook = false;
 
   init() async {
     setBusy(true);
@@ -27,6 +29,8 @@ class ProfileModel extends BaseViewModel {
       emailController.text = user.email;
       passwordController.text = "password";
     }
+    canChangePassword = await authService.loggedInBy();
+    isLoggedInWithFacebook = await authService.loggedInByFacebook();
 
     notifyListeners();
     setBusy(false);
@@ -39,10 +43,11 @@ class ProfileModel extends BaseViewModel {
   updateProfile() async {
     UserInfo User;
     String name = nameController.text;
-    await authService.updateUserInfo(name, User.photoURL);
+    await authService.updateUserInfo(name);
     await user.reload();
     user = await authService.getUser();
     notifyListeners();
+    snackbarService.showSnackbar(message: "Profile updated succesfully");
   }
 
   uploadProfileImage() async {
@@ -51,9 +56,10 @@ class ProfileModel extends BaseViewModel {
       String url = await mediaService.uploadFile(file, path: "profiles/");
       UserInfo User;
       String photoURL = url;
-      await authService.updateUserInfo(User.displayName, photoURL);
+      await authService.updateUserPic(photoURL);
       await user.reload();
       user = await authService.getUser();
+      snackbarService.showSnackbar(message: "Profile Picture updated succesfully");
     }
 
     notifyListeners();
@@ -68,6 +74,11 @@ class ProfileModel extends BaseViewModel {
   updatePassword() {
     authService.changePassword(passwordController.text);
     passwordUpdateEndabled = false;
+    snackbarService.showSnackbar(message: "Password updated succesfully");
     notifyListeners();
+  }
+
+  bool canPasswordUpdate() {
+   return canChangePassword;
   }
 }

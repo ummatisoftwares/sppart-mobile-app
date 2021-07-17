@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spraat/app/locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -62,6 +63,27 @@ class AuthService {
     return result;
   }
 
+  Future<bool> loggedInBy() async {
+    if (await fb.isLoggedIn) {
+      return false;
+    }
+    else if (await getGoogleSignned()){
+      return false;
+    }
+    // else if (_firebaseAuth.currentUser != null){
+    //   print("rue");
+    //   return true;
+    // }
+    return true;
+  }
+
+  Future<bool> loggedInByFacebook() async {
+    if (await fb.isLoggedIn) {
+      return false;
+    }
+    return true;
+  }
+
   logout() async {
 
     if (await fb.isLoggedIn) {
@@ -72,6 +94,7 @@ class AuthService {
     }
     await fb.logOut();
     await _firebaseAuth.signOut();
+    await saveData(false);
     snackbarService.showSnackbar(message: "logout successful");
   }
 
@@ -83,8 +106,12 @@ class AuthService {
         duration: Duration(seconds: 3));
   }
 
-  updateUserInfo(String name, String photoUrl) async {
-    await _firebaseAuth.currentUser.updateProfile(displayName: name, photoURL: photoUrl);
+  updateUserInfo(String name) async {
+    await _firebaseAuth.currentUser.updateProfile(displayName: name);
+  }
+
+  updateUserPic(String photoUrl) async {
+    await _firebaseAuth.currentUser.updateProfile( photoURL: photoUrl);
   }
 
   reloadUser() {}
@@ -133,6 +160,7 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
+      await saveData(true);
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       isSigningIn = false;
@@ -181,6 +209,16 @@ class AuthBloc {
         print('There was an error');
       }
   }
+}
+
+saveData(bool tem) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('googleSignned', tem);
+}
+
+Future<bool> getGoogleSignned() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('googleSignned') ?? false;
 }
 
 

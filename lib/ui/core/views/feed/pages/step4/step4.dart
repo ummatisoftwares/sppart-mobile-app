@@ -495,6 +495,7 @@ class Step4 extends StatelessWidget {
               ? null
               : FloatingActionButton.extended(
                   onPressed: () => model.submitRequest(context),
+                  //onPressed: () => model.SubmitRequest(),
                   label: Text(
                       AppLocalizations.of(context).translate('submitRequest')),
                   icon: Icon(Icons.done_all),
